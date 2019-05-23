@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!--Created with JFLAP 7.1.--><structure>
+	<type>fa</type>
+	<automaton>
+		<!--The list of states.-->
+		<state id="0" name="q0">
+			<x>51.0</x>
+			<y>116.0</y>
+			<initial/>
+		</state>
+		<state id="1" name="q1">
+			<x>160.0</x>
+			<y>193.0</y>
+		</state>
+		<state id="2" name="%Start">
+			<x>274.0</x>
+			<y>117.0</y>
+		</state>
+		<!--The list of transitions.-->
+		<transition>
+			<from>1</from>
+			<to>2</to>
+			<read>-EOF</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>1</to>
+			<read>-Other</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>2</to>
+			<read>-EOL</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>2</to>
+			<read>-EOF</read>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>1</to>
+			<read>-Other</read>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>2</to>
+			<read>-EOL</read>
+		</transition>
+		<note>
+			<text>Name: lcomm</text>
+			<x>19.0</x>
+			<y>42.0</y>
+		</note>
+	</automaton>
+</structure>

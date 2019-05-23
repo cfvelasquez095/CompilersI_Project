@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!--Created with JFLAP 7.1.--><structure>
+	<type>fa</type>
+	<automaton>
+		<!--The list of states.-->
+		<state id="0" name="q0">
+			<x>175.0</x>
+			<y>351.0</y>
+			<initial/>
+		</state>
+		<state id="1" name="q1">
+			<x>172.0</x>
+			<y>70.0</y>
+			<label>Token::OpAdd</label>
+			<final/>
+		</state>
+		<state id="2" name="q2">
+			<x>261.0</x>
+			<y>91.0</y>
+			<label>Token::OpSub</label>
+			<final/>
+		</state>
+		<state id="3" name="q3">
+			<x>345.0</x>
+			<y>126.0</y>
+			<label>Token::OpMul</label>
+			<final/>
+		</state>
+		<state id="4" name="q4">
+			<x>438.0</x>
+			<y>235.0</y>
+		</state>
+		<state id="5" name="q5">
+			<x>444.0</x>
+			<y>349.0</y>
+		</state>
+		<state id="6" name="q6">
+			<x>546.0</x>
+			<y>146.0</y>
+			<label>Token::OpLTE</label>
+			<final/>
+		</state>
+		<state id="7" name="q7">
+			<x>563.0</x>
+			<y>349.0</y>
+			<label>Token::OpGTE</label>
+			<final/>
+		</state>
+		<state id="8" name="q8">
+			<x>440.0</x>
+			<y>442.0</y>
+			<label>Token::OpEQ</label>
+			<final/>
+		</state>
+		<state id="9" name="q9">
+			<x>440.0</x>
+			<y>126.0</y>
+			<label>Token::NotEQ</label>
+			<final/>
+		</state>
+		<state id="10" name="q10">
+			<x>535.0</x>
+			<y>410.0</y>
+			<label>Token::OpGT</label>
+			<final/>
+		</state>
+		<state id="11" name="q11">
+			<x>554.0</x>
+			<y>284.0</y>
+			<label>Token::OpLT</label>
+			<final/>
+		</state>
+		<state id="12" name="q12">
+			<x>579.0</x>
+			<y>223.0</y>
+			<label>Token::ASSIGN</label>
+			<final/>
+		</state>
+		<!--The list of transitions.-->
+		<transition>
+			<from>0</from>
+			<to>4</to>
+			<read>&lt;</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>2</to>
+			<read>-</read>
+		</transition>
+		<transition>
+			<from>4</from>
+			<to>12</to>
+			<read>-</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>3</to>
+			<read>*</read>
+		</transition>
+		<transition>
+			<from>5</from>
+			<to>10</to>
+			<read>-Other</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>1</to>
+			<read>+</read>
+		</transition>
+		<transition>
+			<from>4</from>
+			<to>9</to>
+			<read>&gt;</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>8</to>
+			<read>=</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>5</to>
+			<read>&gt;</read>
+		</transition>
+		<transition>
+			<from>5</from>
+			<to>7</to>
+			<read>=</read>
+		</transition>
+		<transition>
+			<from>4</from>
+			<to>11</to>
+			<read>-Other</read>
+		</transition>
+		<transition>
+			<from>4</from>
+			<to>6</to>
+			<read>=</read>
+		</transition>
+		<note>
+			<text>Name: operators</text>
+			<x>18.0</x>
+			<y>8.0</y>
+		</note>
+	</automaton>
+</structure>

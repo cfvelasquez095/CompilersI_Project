@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!--Created with JFLAP 7.1.--><structure>
+	<type>fa</type>
+	<automaton>
+		<!--The list of states.-->
+		<state id="0" name="q0">
+			<x>95.0</x>
+			<y>237.0</y>
+			<initial/>
+		</state>
+		<state id="1" name="q1">
+			<x>163.0</x>
+			<y>145.0</y>
+		</state>
+		<state id="2" name="q2">
+			<x>279.0</x>
+			<y>141.0</y>
+			<label>Token::DE</label>
+			<final/>
+		</state>
+		<state id="3" name="q3">
+			<x>169.0</x>
+			<y>330.0</y>
+		</state>
+		<state id="4" name="q4">
+			<x>287.0</x>
+			<y>330.0</y>
+		</state>
+		<state id="5" name="q5">
+			<x>393.0</x>
+			<y>327.0</y>
+			<label>Token::DIV</label>
+			<final/>
+		</state>
+		<state id="6" name="%id">
+			<x>284.0</x>
+			<y>236.0</y>
+		</state>
+		<!--The list of transitions.-->
+		<transition>
+			<from>0</from>
+			<to>1</to>
+			<read>e</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>1</to>
+			<read>E</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>3</to>
+			<read>i</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>3</to>
+			<read>I</read>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>2</to>
+			<read>-SPACE</read>
+		</transition>
+		<transition>
+			<from>4</from>
+			<to>5</to>
+			<read>-EOL</read>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>6</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>4</to>
+			<read>v</read>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>4</to>
+			<read>V</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>6</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>4</from>
+			<to>5</to>
+			<read>-SPACE</read>
+		</transition>
+		<transition>
+			<from>4</from>
+			<to>6</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>2</to>
+			<read>-EOL</read>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>6</to>
+			<read/>
+		</transition>
+		<note>
+			<text>Name: dWords</text>
+			<x>21.0</x>
+			<y>25.0</y>
+		</note>
+	</automaton>
+</structure>
