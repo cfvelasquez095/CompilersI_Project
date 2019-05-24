@@ -14,8 +14,8 @@ int main(int argc, char const *argv[])
     Token tkn;
     
     while ((tkn = lexer.getNextToken()) != Token::Eof) {
-        //std::cout << "Token: " << lexer.toString(tkn);
-        //std::cout << " || Value: " << lexer.getText() << std::endl;
+        std::cout << "Token: " << lexer.toString(tkn);
+        std::cout << " || Value: " << lexer.getText() << std::endl;
     }
 
     return 0;

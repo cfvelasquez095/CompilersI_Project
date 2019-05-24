@@ -34,6 +34,7 @@ Token Lexer::getNextToken() {
                     state = StateId::Start_q0;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::Start_q1;
                     text = "";
                 }
@@ -42,13 +43,14 @@ Token Lexer::getNextToken() {
                 if (ch == EOF) {
                     return Token::Eof;
                 } else {
+                    text += ch;
                     state = StateId::Start_q2;
                 }
                 break;
             case StateId::Start_q2:
-                if (ch == '"') {
-                    state = StateId::strConst_q0;
-                    ch = getNextChar();
+                if (ch == ',') {
+                    text += ch;
+                    return Token::COMMA;
                 } else if (ch == '_') {
                     text += ch;
                     state = StateId::id_q0;
@@ -56,28 +58,29 @@ Token Lexer::getNextToken() {
                 } else if (ch == '\'') {
                     state = StateId::charConst_q0;
                     ch = getNextChar();
-                } else if (ch == '/') {
-                    state = StateId::Start_q7;
+                } else if (ch == '(') {
+                    text += ch;
+                    return Token::OpenPar;
+                } else if (ch == '"') {
+                    state = StateId::strConst_q0;
                     ch = getNextChar();
                 } else if (ch == '[') {
                     text += ch;
                     return Token::OpenBracket;
-                } else if (ch == ',') {
-                    text += ch;
-                    return Token::COMMA;
-                } else if (ch == '(') {
-                    text += ch;
-                    return Token::OpenPar;
                 } else if (ch == ')') {
                     text += ch;
                     return Token::ClosePar;
-                } else if (ch == ':') {
-                    text += ch;
-                    return Token::COLON;
                 } else if (ch == ']') {
                     text += ch;
                     return Token::CloseBracket;
+                } else if (ch == '/') {
+                    state = StateId::Start_q7;
+                    ch = getNextChar();
+                } else if (ch == ':') {
+                    text += ch;
+                    return Token::COLON;
                 } else {
+                    text += ch;
                     state = StateId::resWords_q0;
                 }
                 break;
@@ -95,13 +98,13 @@ Token Lexer::getNextToken() {
                 break;
             // intConst
             case StateId::intConst_q0:
-                if (ch == '0') {
-                    text += ch;
-                    state = StateId::intConst_q1;
-                    ch = getNextChar();
-                } else if ((ch >= '1') && (ch <= '9')) {
+                if ((ch >= '1') && (ch <= '9')) {
                     text += ch;
                     state = StateId::intConst_q4;
+                    ch = getNextChar();
+                } else if (ch == '0') {
+                    text += ch;
+                    state = StateId::intConst_q1;
                     ch = getNextChar();
                 } else {
                     // Trying next automaton 'operators'
@@ -109,21 +112,17 @@ Token Lexer::getNextToken() {
                 }
                 break;
             case StateId::intConst_q1:
-                if (ch == 'x') {
-                    text += ch;
-                    state = StateId::intConst_q2;
-                    ch = getNextChar();
-                } else if ((ch >= '1') && (ch <= '9')) {
-                    text += ch;
-                    state = StateId::intConst_q4;
-                    ch = getNextChar();
-                } else if (ch == 'b') {
+                if (ch == 'b') {
                     text += ch;
                     state = StateId::intConst_q3;
                     ch = getNextChar();
+                } else if (ch == 'x') {
+                    text += ch;
+                    state = StateId::intConst_q2;
+                    ch = getNextChar();
                 } else {
-                    // Trying next automaton 'operators'
-                    state = StateId::operators_q0;
+                    text += ch;
+                    state = StateId::intConst_q4;
                 }
                 break;
             case StateId::intConst_q2:
@@ -187,7 +186,7 @@ Token Lexer::getNextToken() {
                 break;
             // strConst
             case StateId::strConst_q0:
-                text += ch;
+                    text += ch;
                 state = StateId::strConst_q1;
                 ch = getNextChar();
                 break;
@@ -215,7 +214,7 @@ Token Lexer::getNextToken() {
                 }
                 break;
             case StateId::strConst_q4:
-                text += ch;
+                    text += ch;
                 state = StateId::strConst_q1;
                 ch = getNextChar();
                 break;
@@ -400,6 +399,7 @@ Token Lexer::getNextToken() {
                     state = StateId::pWords_q0;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::intConst_q0;
                 }
                 break;
@@ -407,6 +407,7 @@ Token Lexer::getNextToken() {
                 if ((ch == '\n') || (ch == ' ')) {
                     return Token::O;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -414,6 +415,7 @@ Token Lexer::getNextToken() {
                 if ((ch == ' ') || (ch == '\n')) {
                     return Token::Y;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -428,6 +430,7 @@ Token Lexer::getNextToken() {
                     state = StateId::aWords_q5;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -437,6 +440,7 @@ Token Lexer::getNextToken() {
                     state = StateId::aWords_q2;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -444,6 +448,7 @@ Token Lexer::getNextToken() {
                 if ((ch == ' ') || (ch == '\n')) {
                     return Token::ARCHIVO;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -453,6 +458,7 @@ Token Lexer::getNextToken() {
                     state = StateId::aWords_q12;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -462,6 +468,7 @@ Token Lexer::getNextToken() {
                     state = StateId::aWords_q13;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -471,6 +478,7 @@ Token Lexer::getNextToken() {
                     state = StateId::aWords_q14;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -480,6 +488,7 @@ Token Lexer::getNextToken() {
                     state = StateId::aWords_q15;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -487,6 +496,7 @@ Token Lexer::getNextToken() {
                 if ((ch == '\n') || (ch == ' ')) {
                     return Token::ARREGLO;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -496,6 +506,7 @@ Token Lexer::getNextToken() {
                     state = StateId::aWords_q3;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -505,6 +516,7 @@ Token Lexer::getNextToken() {
                     state = StateId::aWords_q4;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -512,6 +524,7 @@ Token Lexer::getNextToken() {
                 if ((ch == ' ') || (ch == '\n')) {
                     return Token::ABRIR;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -525,6 +538,7 @@ Token Lexer::getNextToken() {
                     state = StateId::aWords_q6;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -534,6 +548,7 @@ Token Lexer::getNextToken() {
                     state = StateId::aWords_q7;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -543,6 +558,7 @@ Token Lexer::getNextToken() {
                     state = StateId::aWords_q8;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -552,6 +568,7 @@ Token Lexer::getNextToken() {
                     state = StateId::aWords_q9;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -561,6 +578,7 @@ Token Lexer::getNextToken() {
                     state = StateId::aWords_q10;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -571,6 +589,7 @@ Token Lexer::getNextToken() {
                     state = StateId::bWords_q1;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -580,6 +599,7 @@ Token Lexer::getNextToken() {
                     state = StateId::bWords_q2;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -589,6 +609,7 @@ Token Lexer::getNextToken() {
                     state = StateId::bWords_q3;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -598,6 +619,7 @@ Token Lexer::getNextToken() {
                     state = StateId::bWords_q4;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -607,6 +629,7 @@ Token Lexer::getNextToken() {
                     state = StateId::bWords_q5;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -616,6 +639,7 @@ Token Lexer::getNextToken() {
                     state = StateId::bWords_q6;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -625,6 +649,7 @@ Token Lexer::getNextToken() {
                     state = StateId::bWords_q7;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -632,6 +657,7 @@ Token Lexer::getNextToken() {
                 if ((ch == '\n') || (ch == ' ')) {
                     return Token::BOOL;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -650,6 +676,7 @@ Token Lexer::getNextToken() {
                     state = StateId::cWords_q3;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -667,6 +694,7 @@ Token Lexer::getNextToken() {
                     state = StateId::cWords_q5;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -676,6 +704,7 @@ Token Lexer::getNextToken() {
                     state = StateId::cWords_q11;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -685,6 +714,7 @@ Token Lexer::getNextToken() {
                     state = StateId::cWords_q12;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -694,6 +724,7 @@ Token Lexer::getNextToken() {
                     state = StateId::cWords_q13;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -703,6 +734,7 @@ Token Lexer::getNextToken() {
                     state = StateId::cWords_q14;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -710,6 +742,7 @@ Token Lexer::getNextToken() {
                 if ((ch == '\n') || (ch == ' ')) {
                     return Token::CARACTER;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -717,6 +750,7 @@ Token Lexer::getNextToken() {
                 if ((ch == '\n') || (ch == ' ')) {
                     return Token::CASO;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -726,6 +760,7 @@ Token Lexer::getNextToken() {
                     state = StateId::cWords_q17;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -735,6 +770,7 @@ Token Lexer::getNextToken() {
                     state = StateId::cWords_q18;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -744,6 +780,7 @@ Token Lexer::getNextToken() {
                     state = StateId::cWords_q19;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -751,6 +788,7 @@ Token Lexer::getNextToken() {
                 if ((ch == '\n') || (ch == ' ')) {
                     return Token::CERRAR;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -760,6 +798,7 @@ Token Lexer::getNextToken() {
                     state = StateId::cWords_q16;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -769,6 +808,7 @@ Token Lexer::getNextToken() {
                     state = StateId::cWords_q21;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -776,6 +816,7 @@ Token Lexer::getNextToken() {
                 if ((ch == '\n') || (ch == ' ')) {
                     return Token::COMO;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -785,6 +826,7 @@ Token Lexer::getNextToken() {
                     state = StateId::cWords_q20;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -794,6 +836,7 @@ Token Lexer::getNextToken() {
                     state = StateId::cWords_q7;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -803,6 +846,7 @@ Token Lexer::getNextToken() {
                     state = StateId::cWords_q10;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -812,6 +856,7 @@ Token Lexer::getNextToken() {
                     state = StateId::cWords_q15;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -821,6 +866,7 @@ Token Lexer::getNextToken() {
                     state = StateId::cWords_q8;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -830,6 +876,7 @@ Token Lexer::getNextToken() {
                     state = StateId::cWords_q9;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -837,6 +884,7 @@ Token Lexer::getNextToken() {
                 if ((ch == ' ') || (ch == '\n')) {
                     return Token::CADENA;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -851,6 +899,7 @@ Token Lexer::getNextToken() {
                     state = StateId::dWords_q3;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -858,6 +907,7 @@ Token Lexer::getNextToken() {
                 if ((ch == ' ') || (ch == '\n')) {
                     return Token::DE;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -867,6 +917,7 @@ Token Lexer::getNextToken() {
                     state = StateId::dWords_q4;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -874,6 +925,7 @@ Token Lexer::getNextToken() {
                 if ((ch == '\n') || (ch == ' ')) {
                     return Token::DIV;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -888,6 +940,7 @@ Token Lexer::getNextToken() {
                     state = StateId::eWords_q13;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -897,6 +950,7 @@ Token Lexer::getNextToken() {
                     state = StateId::eWords_q2;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -906,6 +960,7 @@ Token Lexer::getNextToken() {
                     state = StateId::eWords_q11;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -913,6 +968,7 @@ Token Lexer::getNextToken() {
                 if ((ch == '\n') || (ch == ' ')) {
                     return Token::ENTONCES;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -924,6 +980,7 @@ Token Lexer::getNextToken() {
                     state = StateId::eWords_q14;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -933,6 +990,7 @@ Token Lexer::getNextToken() {
                     state = StateId::eWords_q15;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -942,6 +1000,7 @@ Token Lexer::getNextToken() {
                     state = StateId::eWords_q16;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -955,6 +1014,7 @@ Token Lexer::getNextToken() {
                     state = StateId::eWords_q21;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -968,6 +1028,7 @@ Token Lexer::getNextToken() {
                     state = StateId::eWords_q19;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -975,6 +1036,7 @@ Token Lexer::getNextToken() {
                 if ((ch == '\n') || (ch == ' ')) {
                     return Token::ESCRIBA;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -984,6 +1046,7 @@ Token Lexer::getNextToken() {
                     state = StateId::eWords_q20;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -997,6 +1060,7 @@ Token Lexer::getNextToken() {
                     state = StateId::eWords_q7;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1004,6 +1068,7 @@ Token Lexer::getNextToken() {
                 if ((ch == '\n') || (ch == ' ')) {
                     return Token::ESCRIBIR;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1013,6 +1078,7 @@ Token Lexer::getNextToken() {
                     state = StateId::eWords_q22;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1022,6 +1088,7 @@ Token Lexer::getNextToken() {
                     state = StateId::eWords_q23;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1031,6 +1098,7 @@ Token Lexer::getNextToken() {
                     state = StateId::eWords_q24;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1038,6 +1106,7 @@ Token Lexer::getNextToken() {
                 if ((ch == '\n') || (ch == ' ')) {
                     return Token::ESCRITURA;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1047,6 +1116,7 @@ Token Lexer::getNextToken() {
                     state = StateId::eWords_q4;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1056,6 +1126,7 @@ Token Lexer::getNextToken() {
                     state = StateId::eWords_q5;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1063,6 +1134,7 @@ Token Lexer::getNextToken() {
                 if ((ch == ' ') || (ch == '\n')) {
                     return Token::ENTERO;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1072,6 +1144,7 @@ Token Lexer::getNextToken() {
                     state = StateId::eWords_q8;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1081,6 +1154,7 @@ Token Lexer::getNextToken() {
                     state = StateId::eWords_q9;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1090,6 +1164,7 @@ Token Lexer::getNextToken() {
                     state = StateId::eWords_q10;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1108,6 +1183,7 @@ Token Lexer::getNextToken() {
                     state = StateId::fWords_q12;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1117,6 +1193,7 @@ Token Lexer::getNextToken() {
                     state = StateId::fWords_q2;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1124,6 +1201,7 @@ Token Lexer::getNextToken() {
                 if ((ch == ' ') || (ch == '\n')) {
                     return Token::FINAL;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1133,6 +1211,7 @@ Token Lexer::getNextToken() {
                     state = StateId::fWords_q13;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1142,6 +1221,7 @@ Token Lexer::getNextToken() {
                     state = StateId::fWords_q14;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1151,6 +1231,7 @@ Token Lexer::getNextToken() {
                     state = StateId::fWords_q15;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1160,6 +1241,7 @@ Token Lexer::getNextToken() {
                     state = StateId::fWords_q16;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1169,6 +1251,7 @@ Token Lexer::getNextToken() {
                     state = StateId::fWords_q17;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1176,6 +1259,7 @@ Token Lexer::getNextToken() {
                 if ((ch == ' ') || (ch == '\n')) {
                     return Token::FUNCION;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1185,6 +1269,7 @@ Token Lexer::getNextToken() {
                     state = StateId::fWords_q3;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1194,6 +1279,7 @@ Token Lexer::getNextToken() {
                     state = StateId::fWords_q4;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1201,6 +1287,7 @@ Token Lexer::getNextToken() {
                 if ((ch == '\n') || (ch == ' ')) {
                     return Token::FALSO;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1210,6 +1297,7 @@ Token Lexer::getNextToken() {
                     state = StateId::fWords_q7;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1221,6 +1309,7 @@ Token Lexer::getNextToken() {
                 } else if ((ch == ' ') || (ch == '\n')) {
                     return Token::FIN;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1230,6 +1319,7 @@ Token Lexer::getNextToken() {
                     state = StateId::fWords_q10;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1240,6 +1330,7 @@ Token Lexer::getNextToken() {
                     state = StateId::hWords_q1;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1253,6 +1344,7 @@ Token Lexer::getNextToken() {
                     state = StateId::hWords_q5;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1262,6 +1354,7 @@ Token Lexer::getNextToken() {
                     state = StateId::hWords_q3;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1269,6 +1362,7 @@ Token Lexer::getNextToken() {
                 if ((ch == ' ') || (ch == '\n')) {
                     return Token::HAGA;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1278,6 +1372,7 @@ Token Lexer::getNextToken() {
                     state = StateId::hWords_q6;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1287,6 +1382,7 @@ Token Lexer::getNextToken() {
                     state = StateId::hWords_q7;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1294,6 +1390,7 @@ Token Lexer::getNextToken() {
                 if ((ch == '\n') || (ch == ' ')) {
                     return Token::HASTA;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1304,6 +1401,7 @@ Token Lexer::getNextToken() {
                     state = StateId::iWords_q1;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1313,6 +1411,7 @@ Token Lexer::getNextToken() {
                     state = StateId::iWords_q2;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1322,6 +1421,7 @@ Token Lexer::getNextToken() {
                     state = StateId::iWords_q3;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1331,6 +1431,7 @@ Token Lexer::getNextToken() {
                     state = StateId::iWords_q4;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1340,6 +1441,7 @@ Token Lexer::getNextToken() {
                     state = StateId::iWords_q5;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1347,6 +1449,7 @@ Token Lexer::getNextToken() {
                 if ((ch == '\n') || (ch == ' ')) {
                     return Token::INICIO;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1361,6 +1464,7 @@ Token Lexer::getNextToken() {
                     state = StateId::lWords_q13;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1378,6 +1482,7 @@ Token Lexer::getNextToken() {
                     state = StateId::lWords_q3;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1385,6 +1490,7 @@ Token Lexer::getNextToken() {
                 if ((ch == ' ') || (ch == '\n')) {
                     return Token::LEER;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1394,6 +1500,7 @@ Token Lexer::getNextToken() {
                     state = StateId::lWords_q14;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1403,6 +1510,7 @@ Token Lexer::getNextToken() {
                     state = StateId::lWords_q15;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1412,6 +1520,7 @@ Token Lexer::getNextToken() {
                     state = StateId::lWords_q16;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1421,6 +1530,7 @@ Token Lexer::getNextToken() {
                     state = StateId::lWords_q17;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1428,6 +1538,7 @@ Token Lexer::getNextToken() {
                 if ((ch == ' ') || (ch == '\n')) {
                     return Token::LLAMAR;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1435,6 +1546,7 @@ Token Lexer::getNextToken() {
                 if ((ch == ' ') || (ch == '\n')) {
                     return Token::LEA;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1444,6 +1556,7 @@ Token Lexer::getNextToken() {
                     state = StateId::lWords_q5;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1453,6 +1566,7 @@ Token Lexer::getNextToken() {
                     state = StateId::lWords_q11;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1462,6 +1576,7 @@ Token Lexer::getNextToken() {
                     state = StateId::lWords_q6;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1471,6 +1586,7 @@ Token Lexer::getNextToken() {
                     state = StateId::lWords_q7;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1480,6 +1596,7 @@ Token Lexer::getNextToken() {
                     state = StateId::lWords_q8;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1487,6 +1604,7 @@ Token Lexer::getNextToken() {
                 if ((ch == ' ') || (ch == '\n')) {
                     return Token::LECTURA;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1501,6 +1619,7 @@ Token Lexer::getNextToken() {
                     state = StateId::mWords_q9;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1510,6 +1629,7 @@ Token Lexer::getNextToken() {
                     state = StateId::mWords_q2;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1517,6 +1637,7 @@ Token Lexer::getNextToken() {
                 if ((ch == ' ') || (ch == '\n')) {
                     return Token::MOD;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1526,6 +1647,7 @@ Token Lexer::getNextToken() {
                     state = StateId::mWords_q3;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1535,6 +1657,7 @@ Token Lexer::getNextToken() {
                     state = StateId::mWords_q4;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1544,6 +1667,7 @@ Token Lexer::getNextToken() {
                     state = StateId::mWords_q5;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1553,6 +1677,7 @@ Token Lexer::getNextToken() {
                     state = StateId::mWords_q6;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1562,6 +1687,7 @@ Token Lexer::getNextToken() {
                     state = StateId::mWords_q7;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1569,6 +1695,7 @@ Token Lexer::getNextToken() {
                 if ((ch == '\n') || (ch == ' ')) {
                     return Token::MIENTRAS;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1578,6 +1705,7 @@ Token Lexer::getNextToken() {
                     state = StateId::mWords_q10;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1588,6 +1716,7 @@ Token Lexer::getNextToken() {
                     state = StateId::nWords_q1;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1597,6 +1726,7 @@ Token Lexer::getNextToken() {
                     state = StateId::nWords_q2;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1604,6 +1734,7 @@ Token Lexer::getNextToken() {
                 if ((ch == '\n') || (ch == ' ')) {
                     return Token::NO;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1618,6 +1749,7 @@ Token Lexer::getNextToken() {
                     state = StateId::pWords_q5;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1627,6 +1759,7 @@ Token Lexer::getNextToken() {
                     state = StateId::pWords_q2;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1636,6 +1769,7 @@ Token Lexer::getNextToken() {
                     state = StateId::pWords_q11;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1645,6 +1779,7 @@ Token Lexer::getNextToken() {
                     state = StateId::pWords_q12;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1654,6 +1789,7 @@ Token Lexer::getNextToken() {
                     state = StateId::pWords_q13;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1663,6 +1799,7 @@ Token Lexer::getNextToken() {
                     state = StateId::pWords_q14;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1672,6 +1809,7 @@ Token Lexer::getNextToken() {
                     state = StateId::pWords_q15;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1681,6 +1819,7 @@ Token Lexer::getNextToken() {
                     state = StateId::pWords_q16;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1688,6 +1827,7 @@ Token Lexer::getNextToken() {
                 if ((ch == ' ') || (ch == '\n')) {
                     return Token::PROCEDIMIENTO;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1697,6 +1837,7 @@ Token Lexer::getNextToken() {
                     state = StateId::pWords_q3;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1704,6 +1845,7 @@ Token Lexer::getNextToken() {
                 if ((ch == ' ') || (ch == '\n')) {
                     return Token::PARA;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1713,6 +1855,7 @@ Token Lexer::getNextToken() {
                     state = StateId::pWords_q6;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1722,6 +1865,7 @@ Token Lexer::getNextToken() {
                     state = StateId::pWords_q7;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1731,6 +1875,7 @@ Token Lexer::getNextToken() {
                     state = StateId::pWords_q8;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1740,6 +1885,7 @@ Token Lexer::getNextToken() {
                     state = StateId::pWords_q9;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1749,6 +1895,7 @@ Token Lexer::getNextToken() {
                     state = StateId::pWords_q10;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1759,6 +1906,7 @@ Token Lexer::getNextToken() {
                     state = StateId::rWords_q1;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1780,6 +1928,7 @@ Token Lexer::getNextToken() {
                     state = StateId::rWords_q2;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1787,6 +1936,7 @@ Token Lexer::getNextToken() {
                 if ((ch == '\n') || (ch == ' ')) {
                     return Token::REGISTRO;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1796,6 +1946,7 @@ Token Lexer::getNextToken() {
                     state = StateId::rWords_q13;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1805,6 +1956,7 @@ Token Lexer::getNextToken() {
                     state = StateId::rWords_q14;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1814,6 +1966,7 @@ Token Lexer::getNextToken() {
                     state = StateId::rWords_q15;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1821,6 +1974,7 @@ Token Lexer::getNextToken() {
                 if ((ch == '\n') || (ch == ' ')) {
                     return Token::REPITA;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1830,6 +1984,7 @@ Token Lexer::getNextToken() {
                     state = StateId::rWords_q18;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1839,6 +1994,7 @@ Token Lexer::getNextToken() {
                     state = StateId::rWords_q19;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1848,6 +2004,7 @@ Token Lexer::getNextToken() {
                     state = StateId::rWords_q20;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1857,6 +2014,7 @@ Token Lexer::getNextToken() {
                     state = StateId::rWords_q3;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1866,6 +2024,7 @@ Token Lexer::getNextToken() {
                     state = StateId::rWords_q21;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1873,6 +2032,7 @@ Token Lexer::getNextToken() {
                 if ((ch == ' ') || (ch == '\n')) {
                     return Token::RETORNE;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1880,6 +2040,7 @@ Token Lexer::getNextToken() {
                 if ((ch == ' ') || (ch == '\n')) {
                     return Token::REAL;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1889,6 +2050,7 @@ Token Lexer::getNextToken() {
                     state = StateId::rWords_q6;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1898,6 +2060,7 @@ Token Lexer::getNextToken() {
                     state = StateId::rWords_q7;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1907,6 +2070,7 @@ Token Lexer::getNextToken() {
                     state = StateId::rWords_q8;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1916,6 +2080,7 @@ Token Lexer::getNextToken() {
                     state = StateId::rWords_q9;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1925,6 +2090,7 @@ Token Lexer::getNextToken() {
                     state = StateId::rWords_q10;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1939,6 +2105,7 @@ Token Lexer::getNextToken() {
                     state = StateId::sWords_q11;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1948,6 +2115,7 @@ Token Lexer::getNextToken() {
                     state = StateId::sWords_q2;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1959,6 +2127,7 @@ Token Lexer::getNextToken() {
                     state = StateId::sWords_q12;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1968,6 +2137,7 @@ Token Lexer::getNextToken() {
                     state = StateId::sWords_q13;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1975,6 +2145,7 @@ Token Lexer::getNextToken() {
                 if ((ch == ' ') || (ch == '\n')) {
                     return Token::SINO;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1984,6 +2155,7 @@ Token Lexer::getNextToken() {
                     state = StateId::sWords_q3;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -1993,6 +2165,7 @@ Token Lexer::getNextToken() {
                     state = StateId::sWords_q4;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -2002,6 +2175,7 @@ Token Lexer::getNextToken() {
                     state = StateId::sWords_q5;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -2011,6 +2185,7 @@ Token Lexer::getNextToken() {
                     state = StateId::sWords_q6;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -2020,6 +2195,7 @@ Token Lexer::getNextToken() {
                     state = StateId::sWords_q7;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -2029,6 +2205,7 @@ Token Lexer::getNextToken() {
                     state = StateId::sWords_q8;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -2038,6 +2215,7 @@ Token Lexer::getNextToken() {
                     state = StateId::sWords_q9;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -2045,6 +2223,7 @@ Token Lexer::getNextToken() {
                 if ((ch == ' ') || (ch == '\n')) {
                     return Token::SECUENCIAL;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -2055,6 +2234,7 @@ Token Lexer::getNextToken() {
                     state = StateId::tWords_q1;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -2064,6 +2244,7 @@ Token Lexer::getNextToken() {
                     state = StateId::tWords_q2;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -2073,6 +2254,7 @@ Token Lexer::getNextToken() {
                     state = StateId::tWords_q3;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -2080,6 +2262,7 @@ Token Lexer::getNextToken() {
                 if ((ch == ' ') || (ch == '\n')) {
                     return Token::TIPO;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -2094,6 +2277,7 @@ Token Lexer::getNextToken() {
                     state = StateId::vWords_q4;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -2103,6 +2287,7 @@ Token Lexer::getNextToken() {
                     state = StateId::vWords_q2;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -2112,6 +2297,7 @@ Token Lexer::getNextToken() {
                     state = StateId::vWords_q11;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -2119,6 +2305,7 @@ Token Lexer::getNextToken() {
                 if ((ch == '\n') || (ch == ' ')) {
                     return Token::VERDADERO;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -2126,6 +2313,7 @@ Token Lexer::getNextToken() {
                 if ((ch == '\n') || (ch == ' ')) {
                     return Token::VAR;
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -2135,6 +2323,7 @@ Token Lexer::getNextToken() {
                     state = StateId::vWords_q5;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -2144,6 +2333,7 @@ Token Lexer::getNextToken() {
                     state = StateId::vWords_q6;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -2153,6 +2343,7 @@ Token Lexer::getNextToken() {
                     state = StateId::vWords_q7;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -2162,6 +2353,7 @@ Token Lexer::getNextToken() {
                     state = StateId::vWords_q8;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -2171,6 +2363,7 @@ Token Lexer::getNextToken() {
                     state = StateId::vWords_q9;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -2180,6 +2373,7 @@ Token Lexer::getNextToken() {
                     state = StateId::vWords_q10;
                     ch = getNextChar();
                 } else {
+                    text += ch;
                     state = StateId::id_q0;
                 }
                 break;
@@ -2207,77 +2401,76 @@ Token Lexer::getNextToken() {
         }
     }
 }
-
 const char *Lexer::toString(Token tk) {
     switch (tk) {
-        case Token::ABRIR: return "ABRIR";
-        case Token::ARCHIVO: return "ARCHIVO";
-        case Token::ARREGLO: return "ARREGLO";
-        case Token::ASSIGN: return "ASSIGN";
-        case Token::BIN: return "BIN";
-        case Token::BOOL: return "BOOL";
+        case Token::VERDADERO: return "VERDADERO";
+        case Token::REPITA: return "REPITA";
+        case Token::REGISTRO: return "REGISTRO";
+        case Token::PROCEDIMIENTO: return "PROCEDIMIENTO";
+        case Token::MOD: return "MOD";
+        case Token::LEA: return "LEA";
+        case Token::SECUENCIAL: return "SECUENCIAL";
+        case Token::LLAMAR: return "LLAMAR";
+        case Token::LEER: return "LEER";
+        case Token::INICIO: return "INICIO";
+        case Token::HASTA: return "HASTA";
+        case Token::HAGA: return "HAGA";
+        case Token::FIN: return "FIN";
+        case Token::FALSO: return "FALSO";
+        case Token::SINO: return "SINO";
+        case Token::FUNCION: return "FUNCION";
+        case Token::FINAL: return "FINAL";
+        case Token::VAR: return "VAR";
+        case Token::LECTURA: return "LECTURA";
+        case Token::ESCRIBIR: return "ESCRIBIR";
+        case Token::ESCRIBA: return "ESCRIBA";
+        case Token::ES: return "ES";
+        case Token::DECIMAL: return "DECIMAL";
+        case Token::ESCRITURA: return "ESCRITURA";
+        case Token::OpEQ: return "OpEQ";
+        case Token::CloseBracket: return "CloseBracket";
+        case Token::OpMul: return "OpMul";
         case Token::CADENA: return "CADENA";
-        case Token::CARACTER: return "CARACTER";
-        case Token::CASO: return "CASO";
-        case Token::CERRAR: return "CERRAR";
+        case Token::ID: return "ID";
         case Token::COLON: return "COLON";
         case Token::COMMA: return "COMMA";
-        case Token::COMO: return "COMO";
-        case Token::CloseBracket: return "CloseBracket";
-        case Token::ClosePar: return "ClosePar";
-        case Token::DE: return "DE";
-        case Token::DECIMAL: return "DECIMAL";
-        case Token::DIV: return "DIV";
-        case Token::ENTERO: return "ENTERO";
-        case Token::ENTONCES: return "ENTONCES";
-        case Token::ES: return "ES";
-        case Token::ESCRIBA: return "ESCRIBA";
-        case Token::ESCRIBIR: return "ESCRIBIR";
-        case Token::ESCRITURA: return "ESCRITURA";
-        case Token::Eof: return "Eof";
-        case Token::FALSO: return "FALSO";
-        case Token::FIN: return "FIN";
-        case Token::FINAL: return "FINAL";
-        case Token::FUNCION: return "FUNCION";
-        case Token::HAGA: return "HAGA";
-        case Token::HASTA: return "HASTA";
-        case Token::HEX: return "HEX";
-        case Token::ID: return "ID";
-        case Token::INICIO: return "INICIO";
-        case Token::LEA: return "LEA";
-        case Token::LECTURA: return "LECTURA";
-        case Token::LEER: return "LEER";
-        case Token::LLAMAR: return "LLAMAR";
-        case Token::MIENTRAS: return "MIENTRAS";
-        case Token::MOD: return "MOD";
-        case Token::NO: return "NO";
-        case Token::NotEQ: return "NotEQ";
-        case Token::O: return "O";
-        case Token::OpAdd: return "OpAdd";
-        case Token::OpEQ: return "OpEQ";
-        case Token::OpGT: return "OpGT";
-        case Token::OpGTE: return "OpGTE";
-        case Token::OpLT: return "OpLT";
-        case Token::OpLTE: return "OpLTE";
-        case Token::OpMul: return "OpMul";
-        case Token::OpSub: return "OpSub";
-        case Token::OpenBracket: return "OpenBracket";
-        case Token::OpenPar: return "OpenPar";
-        case Token::PARA: return "PARA";
-        case Token::PROCEDIMIENTO: return "PROCEDIMIENTO";
         case Token::REAL: return "REAL";
-        case Token::REGISTRO: return "REGISTRO";
-        case Token::REPITA: return "REPITA";
-        case Token::RETORNE: return "RETORNE";
-        case Token::SECUENCIAL: return "SECUENCIAL";
+        case Token::ARCHIVO: return "ARCHIVO";
+        case Token::Eof: return "Eof";
+        case Token::ENTONCES: return "ENTONCES";
+        case Token::BOOL: return "BOOL";
+        case Token::MIENTRAS: return "MIENTRAS";
+        case Token::DE: return "DE";
         case Token::SI: return "SI";
-        case Token::SINO: return "SINO";
-        case Token::TIPO: return "TIPO";
-        case Token::VAR: return "VAR";
-        case Token::VERDADERO: return "VERDADERO";
-        case Token::Y: return "Y";
+        case Token::BIN: return "BIN";
         case Token::charConstant: return "charConstant";
+        case Token::OpSub: return "OpSub";
+        case Token::DIV: return "DIV";
+        case Token::NO: return "NO";
+        case Token::CARACTER: return "CARACTER";
+        case Token::OpenPar: return "OpenPar";
+        case Token::OpenBracket: return "OpenBracket";
+        case Token::ClosePar: return "ClosePar";
+        case Token::Y: return "Y";
         case Token::stringConstant: return "stringConstant";
+        case Token::NotEQ: return "NotEQ";
+        case Token::OpLTE: return "OpLTE";
+        case Token::ARREGLO: return "ARREGLO";
+        case Token::RETORNE: return "RETORNE";
+        case Token::ASSIGN: return "ASSIGN";
+        case Token::OpLT: return "OpLT";
+        case Token::ENTERO: return "ENTERO";
+        case Token::HEX: return "HEX";
+        case Token::OpGTE: return "OpGTE";
+        case Token::PARA: return "PARA";
+        case Token::OpGT: return "OpGT";
+        case Token::ABRIR: return "ABRIR";
+        case Token::TIPO: return "TIPO";
+        case Token::CASO: return "CASO";
+        case Token::COMO: return "COMO";
+        case Token::OpAdd: return "OpAdd";
+        case Token::O: return "O";
+        case Token::CERRAR: return "CERRAR";
         default: return "Unknown";
     }
 }

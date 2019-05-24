@@ -24,9 +24,9 @@ Token Lexer::getNextToken() {
                 }
                 break;
             case StateId::Start_q2:
-                if (ch == '"') {
-                    state = StateId::strConst_q0;
-                    ch = getNextChar();
+                if (ch == ',') {
+                    text += ch;
+                    return Token::COMMA;
                 } else if (ch == '_') {
                     text += ch;
                     state = StateId::id_q0;
@@ -34,27 +34,27 @@ Token Lexer::getNextToken() {
                 } else if (ch == '\'') {
                     state = StateId::charConst_q0;
                     ch = getNextChar();
-                } else if (ch == '/') {
-                    state = StateId::Start_q7;
+                } else if (ch == '(') {
+                    text += ch;
+                    return Token::OpenPar;
+                } else if (ch == '"') {
+                    state = StateId::strConst_q0;
                     ch = getNextChar();
                 } else if (ch == '[') {
                     text += ch;
                     return Token::OpenBracket;
-                } else if (ch == ',') {
-                    text += ch;
-                    return Token::COMMA;
-                } else if (ch == '(') {
-                    text += ch;
-                    return Token::OpenPar;
                 } else if (ch == ')') {
                     text += ch;
                     return Token::ClosePar;
-                } else if (ch == ':') {
-                    text += ch;
-                    return Token::COLON;
                 } else if (ch == ']') {
                     text += ch;
                     return Token::CloseBracket;
+                } else if (ch == '/') {
+                    state = StateId::Start_q7;
+                    ch = getNextChar();
+                } else if (ch == ':') {
+                    text += ch;
+                    return Token::COLON;
                 } else {
                     text += ch;
                     state = StateId::resWords_q0;
@@ -74,13 +74,13 @@ Token Lexer::getNextToken() {
                 break;
             // intConst
             case StateId::intConst_q0:
-                if (ch == '0') {
-                    text += ch;
-                    state = StateId::intConst_q1;
-                    ch = getNextChar();
-                } else if ((ch >= '1') && (ch <= '9')) {
+                if ((ch >= '1') && (ch <= '9')) {
                     text += ch;
                     state = StateId::intConst_q4;
+                    ch = getNextChar();
+                } else if (ch == '0') {
+                    text += ch;
+                    state = StateId::intConst_q1;
                     ch = getNextChar();
                 } else {
                     // Trying next automaton 'operators'
@@ -88,21 +88,17 @@ Token Lexer::getNextToken() {
                 }
                 break;
             case StateId::intConst_q1:
-                if (ch == 'x') {
-                    text += ch;
-                    state = StateId::intConst_q2;
-                    ch = getNextChar();
-                } else if ((ch >= '1') && (ch <= '9')) {
-                    text += ch;
-                    state = StateId::intConst_q4;
-                    ch = getNextChar();
-                } else if (ch == 'b') {
+                if (ch == 'b') {
                     text += ch;
                     state = StateId::intConst_q3;
                     ch = getNextChar();
+                } else if (ch == 'x') {
+                    text += ch;
+                    state = StateId::intConst_q2;
+                    ch = getNextChar();
                 } else {
-                    // Trying next automaton 'operators'
-                    state = StateId::operators_q0;
+                    text += ch;
+                    state = StateId::intConst_q4;
                 }
                 break;
             case StateId::intConst_q2:
@@ -2381,7 +2377,7 @@ Token Lexer::getNextToken() {
         }
     }
 }
-const char *ExprLexer::toString(Token tk) {
+const char *Lexer::toString(Token tk) {
     switch (tk) {
         case Token::VERDADERO: return "VERDADERO";
         case Token::REPITA: return "REPITA";
@@ -2411,27 +2407,27 @@ const char *ExprLexer::toString(Token tk) {
         case Token::CloseBracket: return "CloseBracket";
         case Token::OpMul: return "OpMul";
         case Token::CADENA: return "CADENA";
+        case Token::ID: return "ID";
+        case Token::COLON: return "COLON";
+        case Token::COMMA: return "COMMA";
+        case Token::REAL: return "REAL";
+        case Token::ARCHIVO: return "ARCHIVO";
+        case Token::Eof: return "Eof";
+        case Token::ENTONCES: return "ENTONCES";
+        case Token::BOOL: return "BOOL";
         case Token::MIENTRAS: return "MIENTRAS";
         case Token::DE: return "DE";
         case Token::SI: return "SI";
         case Token::BIN: return "BIN";
-        case Token::OpenBracket: return "OpenBracket";
-        case Token::ENTONCES: return "ENTONCES";
-        case Token::BOOL: return "BOOL";
-        case Token::COMMA: return "COMMA";
-        case Token::REAL: return "REAL";
-        case Token::Eof: return "Eof";
-        case Token::ARCHIVO: return "ARCHIVO";
         case Token::charConstant: return "charConstant";
         case Token::OpSub: return "OpSub";
         case Token::DIV: return "DIV";
         case Token::NO: return "NO";
         case Token::CARACTER: return "CARACTER";
         case Token::OpenPar: return "OpenPar";
+        case Token::OpenBracket: return "OpenBracket";
         case Token::ClosePar: return "ClosePar";
         case Token::Y: return "Y";
-        case Token::ID: return "ID";
-        case Token::COLON: return "COLON";
         case Token::stringConstant: return "stringConstant";
         case Token::NotEQ: return "NotEQ";
         case Token::OpLTE: return "OpLTE";

@@ -43,12 +43,7 @@
 		</state>
 		<!--The list of transitions.-->
 		<transition>
-			<from>1</from>
-			<to>2</to>
-			<read>x</read>
-		</transition>
-		<transition>
-			<from>1</from>
+			<from>0</from>
 			<to>4</to>
 			<read>[1-9]</read>
 		</transition>
@@ -63,14 +58,14 @@
 			<read>[0-9]</read>
 		</transition>
 		<transition>
-			<from>2</from>
-			<to>6</to>
-			<read/>
-		</transition>
-		<transition>
 			<from>4</from>
 			<to>5</to>
 			<read/>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>3</to>
+			<read>b</read>
 		</transition>
 		<transition>
 			<from>0</from>
@@ -88,19 +83,24 @@
 			<read/>
 		</transition>
 		<transition>
-			<from>0</from>
+			<from>1</from>
+			<to>2</to>
+			<read>x</read>
+		</transition>
+		<transition>
+			<from>1</from>
 			<to>4</to>
-			<read>[1-9]</read>
+			<read/>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>6</to>
+			<read/>
 		</transition>
 		<transition>
 			<from>3</from>
 			<to>3</to>
 			<read>[0-1]</read>
-		</transition>
-		<transition>
-			<from>1</from>
-			<to>3</to>
-			<read>b</read>
 		</transition>
 		<transition>
 			<from>2</from>
