@@ -1,12 +1,14 @@
 #include "lexer.h"
 #include <sstream>
 
-char data[300];
-
 int main(int argc, char const *argv[])
 {
     /* code */
-    std::istringstream ins;
+    if (argc < 2) {
+        std::cout << "Usage: " << argv[0] << " <test_file>" << std::endl;
+        return EXIT_FAILURE;
+    }
+    
     std::fstream infile(argv[1]);
 
     Lexer lexer(infile);
@@ -18,5 +20,5 @@ int main(int argc, char const *argv[])
         std::cout << " || Value: " << lexer.getText() << std::endl;
     }
 
-    return 0;
+    return EXIT_SUCCESS;
 }
