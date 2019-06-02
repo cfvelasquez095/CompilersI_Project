@@ -1,7 +1,7 @@
 grammar MiniLPP;
 
 program:
-    subtypes_section variable_section subprogram_decl 'inicio' statement 'EOL' 'fin'
+    subtypes_section variable_section subprogram_decl 'inicio' statement_call 'EOL' 'fin'
 ;
 
 subtypes_section:
@@ -52,11 +52,11 @@ subprogram_header:
 ;
 
 function_header:
-    'function' 'ID' '(' argument_decl ')' ':' type
+    'function' 'ID' argument_call ':' type
 ;
 
 procedure_header:
-    'procedimiento' 'ID' '(' argument_decl ')'
+    'procedimiento' 'ID' argument_call
 ;
 
 argument_decl:
@@ -70,33 +70,45 @@ mult_arg:
     | /* epsilon */
 ;
 
+argument_call:
+    '(' argument_decl ')'
+    | argument_decl
+    | '(' ')'
+;
+
+eol_call:
+    'EOL'
+    | /* epsilon */
+;
+
 statement:
     lvalue '<-' expr
     | 'llamar' 'ID' '(' expr ')'
     | 'escriba' argument
     | 'lea' lvalue
     | if_statement
-    | 'mientras' expr 'EOL'? 'haga' 'EOL' statement 'EOL' 'EOL' 'fin' 'mientras'
-    | 'repita' 'EOL' statement 'EOL' 'EOL' 'hasta' expr
-    | 'para' lvalue '<-' expr 'hasta' expr 'haga' 'EOL' statement 'EOL' 'EOL' 'fin' 'para'
+    | 'mientras' expr eol_call 'haga' 'EOL' statement_call 'EOL' 'fin' 'mientras'
+    | 'repita' 'EOL' statement_call 'EOL' 'hasta' expr
+    | 'para' lvalue '<-' expr 'hasta' expr 'haga' 'EOL' statement_call 'EOL' 'fin' 'para'
 ;
 
 statement_call:
-    statement statement_call
-    | 'EOL' statement_call
+    statement 'EOL' statement_call
     | /* epsilon */
 ;
 
 if_statement:
-    'si' expr 'EOL'? 'entonces' statement 'EOL' 'EOL' else_if_block* else_block? 'fin' 'si'
+    'si' expr eol_call 'entonces' statement_call 'EOL' else_if_block else_block 'fin' 'si'
 ;
 
 else_if_block:
-    'sino' 'si' expr 'EOL'? 'entonces' statement 'EOL' 'EOL'
+    'sino' 'si' expr eol_call 'entonces' statement 'EOL' 'EOL'
+    | /* epsilon */
 ;
 
 else_block:
-    'else' statement 'EOL' 'EOL'
+    'else' statement_call 'EOL'
+    | /* epsilon */
 ;
 
 argument:
@@ -121,6 +133,13 @@ expr:
 
 mult_expr:
     ',' expr
+    | /* epsilon */
+;
+
+expr_call:
+    '(' expr mult_expr ')'
+    | expr mult_expr
+    | '(' ')'
     | /* epsilon */
 ;
 
