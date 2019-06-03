@@ -310,8 +310,6 @@ private:
     std::istream &input;
     std::string text;
 
-    int line_num = 0;
-
     int getNextChar();
     void ungetChar(int ch);
     void reportError(int ch);
@@ -320,6 +318,7 @@ public:
     Token getNextToken();
     std::string getText() { return text; };
     const char * toString(Token tk);
+    int line_num = 1;
 };
 
 #endif
