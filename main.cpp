@@ -1,4 +1,4 @@
-#include "lexer.h"
+#include "parser.h"
 #include <sstream>
 
 int main(int argc, char const *argv[])
@@ -12,13 +12,16 @@ int main(int argc, char const *argv[])
     std::fstream infile(argv[1]);
 
     Lexer lexer(infile);
+    Parser parser(lexer);
 
     Token tkn;
+
+    parser.parse();
     
-    while ((tkn = lexer.getNextToken()) != Token::Eof) {
-        std::cout << "Token: " << lexer.toString(tkn);
-        std::cout << " || Value: " << lexer.getText() << std::endl;
-    }
+    // while ((tkn = lexer.getNextToken()) != Token::Eof) {
+    //     std::cout << "Token: " << lexer.toString(tkn);
+    //     std::cout << " || Value: " << lexer.getText() << std::endl;
+    // }
 
     return EXIT_SUCCESS;
 }
