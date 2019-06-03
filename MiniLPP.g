@@ -20,7 +20,7 @@ variable_section: /* DONE */
 ;
 
 variable_decl: /* DONE */
-    'tipo' 'id' mult_var 'EOL' variable_decl
+    type 'id' mult_var 'EOL' variable_decl
     | /* epsilon */
 ;
 
@@ -85,10 +85,11 @@ statement: /* DONE */
     | 'llamar' 'ID' '(' expr ')'
     | 'escriba' argument
     | 'lea' lvalue
-    | 'si' expr eol_call 'entonces' statement_call 'EOL' else_if_block else_block 'fin' 'si'
+    | 'si' expr eol_call 'entonces' eol_call statement_call 'EOL' else_if_block else_block 'fin' 'si'
     | 'mientras' expr eol_call 'haga' 'EOL' statement_call 'EOL' 'fin' 'mientras'
     | 'repita' 'EOL' statement_call 'EOL' 'hasta' expr
     | 'para' lvalue '<-' expr 'hasta' expr 'haga' 'EOL' statement_call 'EOL' 'fin' 'para'
+    | 'retorne' expr
 ;
 
 statement_call: /* DONE */
@@ -112,18 +113,25 @@ argument: /* DONE */
 ;
 
 lvalue: /* DONE */
-    'ID'
-    | 'ID' '[' expr ']'
+    'ID' lvalue_p
+;
+
+lvalue_p:
+    '[' expr ']'
+    | expr_call
+    | /* epsilon */
 ;
 
 expr:
-    lvalue
-    | 'ID' expr_call
-    | constant
-    | expr bin_op expr
+    lvalue expr_p
+    | constant expr_p
     | '-' expr
     | 'no' expr
     | '(' expr ')'
+;
+
+expr_p:
+    bin_op expr
     | /* epsilon */
 ;
 
@@ -133,10 +141,12 @@ mult_expr: /* DONE */
 ;
 
 expr_call: /* DONE */
-    '(' expr mult_expr ')'
-    | expr mult_expr
-    | '(' ')'
-    | /* epsilon */
+    '(' expr_call_p
+;
+
+expr_call_p:
+    expr mult_expr ')'
+    | ')'
 ;
 
 bin_op: /* DONE */
