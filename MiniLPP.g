@@ -20,8 +20,7 @@ variable_section:
 ;
 
 variable_decl:
-    'tipo' 'id' 'EOL' variable_decl
-    | 'tipo' 'id' mult_var 'EOL'
+    'tipo' 'id' mult_var 'EOL' variable_decl
     | /* epsilon */
 ;
 
