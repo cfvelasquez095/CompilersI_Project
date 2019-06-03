@@ -6,7 +6,7 @@ void Parser::parse()
     program();
     if ( tk != Token::Eof)
     {
-        std::cerr << "Unable to parse file" << std::endl;
+        std::cerr << "Unable to parse file" << " at line: " << lexer.line_num << std::endl;
     }
     
 }
@@ -27,20 +27,20 @@ void Parser::program()
 
             if ( tk == Token::FIN )
             {
-                std::cout << "MiniLPP program successfully parsed." << std::endl;
+                std::cout << "MiniLPP program successfully parsed." << " at line: " << std::endl;
             } else
             {
-                std::cerr << "Expected 'FIN'. Found: " << lexer.getText() << std::endl;
+                std::cerr << "Expected 'FIN'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
             }
                         
         } else
         {
-            std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << std::endl;
+            std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
         }
         
     } else
     {
-        std::cerr << "Expected 'INICIO'. Found: " << lexer.getText() << std::endl;
+        std::cerr << "Expected 'INICIO'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
     }
     
 }
@@ -72,17 +72,17 @@ void Parser::subtypeDecl()
 
                 } else
                 {
-                    std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << std::endl;
+                    std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
                 }
                 
             } else
             {
-                std::cerr << "Expected 'ES'. Found: " << lexer.getText() << std::endl;
+                std::cerr << "Expected 'ES'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
             } 
             
         } else
         {
-            std::cerr << "Expected 'ID'. Found: " << lexer.getText() << std::endl;
+            std::cerr << "Expected 'ID'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
         }
         
     } else
@@ -115,12 +115,12 @@ void Parser::variableDecl()
 
             } else
             {
-                std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << std::endl;
+                std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
             }
             
         } else
         {
-            std::cerr << "Expected 'ID'. Found: " << lexer.getText() << std::endl;
+            std::cerr << "Expected 'ID'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
         }
         
     } else
@@ -143,7 +143,7 @@ void Parser::multVar()
 
         } else
         {
-            std::cerr << "Expected 'ID'. Found: " << lexer.getText() << std::endl;
+            std::cerr << "Expected 'ID'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
         }
         
     } else
@@ -199,23 +199,23 @@ void Parser::arrayType()
 
                     } else
                     {
-                        std::cerr << "Expected 'DE'. Found: " << lexer.getText() << std::endl;
+                        std::cerr << "Expected 'DE'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
                     }   
                 } else
                 {
-                    std::cerr << "Expected ']'. Found: " << lexer.getText() << std::endl;
+                    std::cerr << "Expected ']'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
                 }   
             } else
             {
-                std::cerr << "Expected 'intConstant'. Found: " << lexer.getText() << std::endl;
+                std::cerr << "Expected 'intConstant'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
             }   
         } else
         {
-            std::cerr << "Expected '['. Found: " << lexer.getText() << std::endl;
+            std::cerr << "Expected '['. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
         }   
     } else
     {
-        std::cerr << "Expected 'ARREGLO'. Found: " << lexer.getText() << std::endl;
+        std::cerr << "Expected 'ARREGLO'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
     }
     
 }
@@ -248,19 +248,19 @@ void Parser::subprogramDecl()
 
                     } else
                     {
-                        std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << std::endl;
+                        std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
                     }
                 } else
                 {
-                    std::cerr << "Expected 'FIN'. Found: " << lexer.getText() << std::endl;
+                    std::cerr << "Expected 'FIN'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
                 }
             } else
             {
-                std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << std::endl;
+                std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
             }
         } else
         {
-            std::cerr << "Expected 'INICIO'. Found: " << lexer.getText() << std::endl;
+            std::cerr << "Expected 'INICIO'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
         }
     } else
     {
@@ -271,8 +271,46 @@ void Parser::subprogramDecl()
 
 void Parser::subprogramHeader()
 {
-    functionHeader();
-    procedureHeader();
+    // functionHeader();
+    // procedureHeader();
+    if ( tk == Token::FUNCION )
+    {
+        tk = lexer.getNextToken();
+
+        if ( tk == Token::ID )
+        {
+            tk = lexer.getNextToken();
+            argumentCall();
+
+            if ( tk == Token::COLON )
+            {
+                tk = lexer.getNextToken();
+                type();
+
+            } else
+            {
+                std::cerr << "Expected ':'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
+            }
+        } else
+        {
+            std::cerr << "Expected 'ID'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
+        }
+    } else if ( tk == Token::PROCEDIMIENTO )
+    {
+        tk = lexer.getNextToken();
+        if ( tk == Token::ID )
+        {
+            tk = lexer.getNextToken();
+            argumentCall();
+
+        } else
+        {
+            std::cerr << "Expected 'ID'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
+        }
+    } else
+    {
+        std::cerr << "Expected 'FUNCION' or 'PROCEDIMIENTO'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
+    }
 }
 
 void Parser::functionHeader()
@@ -293,15 +331,15 @@ void Parser::functionHeader()
 
             } else
             {
-                std::cerr << "Expected ':'. Found: " << lexer.getText() << std::endl;
+                std::cerr << "Expected ':'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
             }
         } else
         {
-            std::cerr << "Expected 'ID'. Found: " << lexer.getText() << std::endl;
+            std::cerr << "Expected 'ID'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
         }
     } else
     {
-        std::cerr << "Expected 'FUNCION'. Found: " << lexer.getText() << std::endl;
+        std::cerr << "Expected 'FUNCION'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
     }
     
 }
@@ -319,11 +357,11 @@ void Parser::procedureHeader()
 
         } else
         {
-            std::cerr << "Expected 'ID'. Found: " << lexer.getText() << std::endl;
+            std::cerr << "Expected 'ID'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
         }
     } else
     {
-        std::cerr << "Expected 'PROCEDIMIENTO'. Found: " << lexer.getText() << std::endl;
+        std::cerr << "Expected 'PROCEDIMIENTO'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
     }
     
 }
@@ -342,7 +380,7 @@ void Parser::argumentDecl()
 
         } else
         {
-            std::cerr << "Expected 'ID'. Found: " << lexer.getText() << std::endl;
+            std::cerr << "Expected 'ID'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
         }
     } else
     {
@@ -355,7 +393,7 @@ void Parser::argumentDecl()
 
         } else
         {
-            std::cerr << "Expected 'ID'. Found: " << lexer.getText() << std::endl;
+            std::cerr << "Expected 'ID'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
         }
     }
     
@@ -379,7 +417,7 @@ void Parser::multArg()
 
             } else
             {
-                std::cerr << "Expected 'ID'. Found: " << lexer.getText() << std::endl;
+                std::cerr << "Expected 'ID'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
             }    
         } else
         {
@@ -392,7 +430,7 @@ void Parser::multArg()
 
             } else
             {
-                std::cerr << "Expected 'ID'. Found: " << lexer.getText() << std::endl;
+                std::cerr << "Expected 'ID'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
             }
         }
     } else
@@ -407,7 +445,6 @@ void Parser::argumentCall()
     if ( tk == Token::OpenPar )
     {
         tk = lexer.getNextToken();
-
         if ( tk == Token::ClosePar )
         {
             tk = lexer.getNextToken();
@@ -421,12 +458,12 @@ void Parser::argumentCall()
                 tk = lexer.getNextToken();
             } else
             {
-                std::cerr << "Expected ')'. Found: " << lexer.getText() << std::endl;
+                std::cerr << "Expected ')'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
             }   
         }
     } else
     {
-        std::cerr << "Expected '(', 'var' or 'type'. Found: " << lexer.getText() << std::endl;
+        std::cerr << "Expected '(', 'var' or 'type'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
     }
     
 }
@@ -465,16 +502,16 @@ void Parser::statement()
 
                 }  else
                 {
-                    std::cerr << "Expected ')'. Found: " << lexer.getText() << std::endl;
+                    std::cerr << "Expected ')'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
                 }
             } else
             {
-                std::cerr << "Expected '('. Found: " << lexer.getText() << std::endl;
+                std::cerr << "Expected '('. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
             }
             
         } else
         {
-            std::cerr << "Expected 'ID'. Found: " << lexer.getText() << std::endl;
+            std::cerr << "Expected 'ID'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
         }   
     } else if ( tk == Token::ESCRIBA ) //statement ESCRIBA
     {
@@ -513,23 +550,23 @@ void Parser::statement()
                             tk = lexer.getNextToken();
                         } else
                         {
-                            std::cerr << "Expected 'MIENTRAS'. Found: " << lexer.getText() << std::endl;
+                            std::cerr << "Expected 'MIENTRAS'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
                         }   
                     } else
                     {
-                        std::cerr << "Expected 'FIN'. Found: " << lexer.getText() << std::endl;
+                        std::cerr << "Expected 'FIN'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
                     }   
                 } else
                 {
-                    std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << std::endl;
+                    std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
                 }   
             } else
             {
-                std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << std::endl;
+                std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
             }   
         } else
         {
-            std::cerr << "Expected 'HAGA'. Found: " << lexer.getText() << std::endl;
+            std::cerr << "Expected 'HAGA'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
         }   
     } else if ( tk == Token::REPITA ) //statement REPITA
     {
@@ -550,15 +587,15 @@ void Parser::statement()
                     expr();
                 } else
                 {
-                    std::cerr << "Expected 'HASTA'. Found: " << lexer.getText() << std::endl;
+                    std::cerr << "Expected 'HASTA'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
                 }   
             } else
             {
-                std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << std::endl;
+                std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
             }   
         } else
         {
-            std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << std::endl;
+            std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
         }   
     } else if ( tk == Token::PARA ) //statement PARA
     {
@@ -598,31 +635,31 @@ void Parser::statement()
 
                                 } else
                                 {
-                                    std::cerr << "Expected 'PARA'. Found: " << lexer.getText() << std::endl;
+                                    std::cerr << "Expected 'PARA'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
                                 }   
                             } else
                             {
-                                std::cerr << "Expected 'FIN'. Found: " << lexer.getText() << std::endl;
+                                std::cerr << "Expected 'FIN'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
                             }   
                         } else
                         {
-                            std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << std::endl;
+                            std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
                         }   
                     } else
                     {
-                        std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << std::endl;
+                        std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
                     }   
                 } else
                 {
-                    std::cerr << "Expected 'HAGA'. Found: " << lexer.getText() << std::endl;
+                    std::cerr << "Expected 'HAGA'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
                 }   
             } else
             {
-                std::cerr << "Expected 'HASTA'. Found: " << lexer.getText() << std::endl;
+                std::cerr << "Expected 'HASTA'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
             }   
         } else
         {
-            std::cerr << "Expected '<-'. Found: " << lexer.getText() << std::endl;
+            std::cerr << "Expected '<-'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
         }   
         
     } else if ( tk == Token::SI )
@@ -650,19 +687,19 @@ void Parser::statement()
 
                     } else
                     {
-                        std::cerr << "Expected 'SI'. Found: " << lexer.getText() << std::endl;
+                        std::cerr << "Expected 'SI'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
                     }
                 } else
                 {
-                    std::cerr << "Expected 'FIN'. Found: " << lexer.getText() << std::endl;
+                    std::cerr << "Expected 'FIN'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
                 }
             } else
             {
-                std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << std::endl;
+                std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
             }
         } else
         {
-            std::cerr << "Expected 'ENTONCES'. Found: " << lexer.getText() << std::endl;
+            std::cerr << "Expected 'ENTONCES'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
         }
     }
     
@@ -677,7 +714,7 @@ void Parser::statement()
 
     } else
     {
-        std::cerr << "Expected 'statement'. Found: " << lexer.getText() << std::endl;
+        std::cerr << "Expected 'statement'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
     }   
 
 }
@@ -719,15 +756,15 @@ void Parser::elseifStatement()
 
                 } else
                 {
-                    std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << std::endl;
+                    std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
                 }
             } else
             {
-                std::cerr << "Expected 'ENTONCES'. Found: " << lexer.getText() << std::endl;
+                std::cerr << "Expected 'ENTONCES'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
             }
         } else
         {
-            std::cerr << "Expected 'SI'. Found: " << lexer.getText() << std::endl;
+            std::cerr << "Expected 'SI'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
         }
     } else
     {
@@ -749,7 +786,7 @@ void Parser::elseBlock()
 
         } else
         {
-            std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << std::endl;
+            std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
         }
     } else
     {
@@ -787,7 +824,7 @@ void Parser::lvalue()
 
             } else
             {
-                std::cerr << "Expected ']'. Found: " << lexer.getText() << std::endl;
+                std::cerr << "Expected ']'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
             }
         } else
         {
@@ -795,7 +832,7 @@ void Parser::lvalue()
         }
     } else
     {
-        std::cerr << "Expected 'ID'. Found: " << lexer.getText() << std::endl;
+        std::cerr << "Expected 'ID'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
     }
     
 }
@@ -839,7 +876,7 @@ void Parser::exprCall()
                 tk = lexer.getNextToken();
             } else
             {
-                std::cerr << "Expected ')'. Found: " << lexer.getText() << std::endl;
+                std::cerr << "Expected ')'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
             }
             
         }
@@ -903,7 +940,7 @@ void Parser::binOP()
         tk = lexer.getNextToken();
     } else
     {
-        std::cerr << "Expected 'OPERAND'. Found: " << lexer.getText() << std::endl;
+        std::cerr << "Expected 'OPERAND'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
     }
     
 }
@@ -928,7 +965,7 @@ void Parser::constant()
         
     } else
     {
-                std::cerr << "Expected 'CONSTANT'. Found: " << lexer.getText() << std::endl;
+                std::cerr << "Expected 'CONSTANT'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
     }
         
 }
