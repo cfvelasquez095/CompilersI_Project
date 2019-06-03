@@ -47,7 +47,15 @@ void Parser::program()
 
 void Parser::subtypesSection()
 {
-    subtypeDecl();
+    if ( tk == Token::TIPO )
+    {
+        subtypeDecl();
+
+    } else
+    {
+        /* code */
+    }
+    
 }
 
 void Parser::subtypeDecl()
@@ -94,18 +102,25 @@ void Parser::subtypeDecl()
 
 void Parser::variableSection()
 {
-    variableDecl();
+    if ( tk == Token::ENTERO || tk == Token::BOOL || tk == Token::charConstant || tk == Token::ARREGLO )
+    {
+        variableDecl();
+
+    } else
+    {
+        /* epsilon */
+    }
+    
 }
 
 void Parser::variableDecl()
 {
-    if ( tk == Token::TIPO )
+    if ( tk == Token::ENTERO || tk == Token::BOOL || tk == Token::charConstant || tk == Token::ARREGLO )
     {
-        tk = lexer.getNextToken();
-
+        type();
         if ( tk == Token::ID )
         {
-            tk == lexer.getNextToken();
+            tk = lexer.getNextToken();
             multVar();
 
             if ( tk == Token::Eol )
@@ -115,14 +130,13 @@ void Parser::variableDecl()
 
             } else
             {
-                std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
+                std::cerr << "Expected 'EOL'. Found: " << lexer.toString(tk) << " at line: " << lexer.line_num << std::endl;
             }
             
         } else
         {
             std::cerr << "Expected 'ID'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
         }
-        
     } else
     {
         /* epsilon */
@@ -627,7 +641,7 @@ void Parser::statement()
                             
                             if ( tk == Token::FIN )
                             {
-                                tk == lexer.getNextToken();
+                                tk = lexer.getNextToken();
 
                                 if ( tk == Token::PARA )
                                 {
@@ -670,7 +684,8 @@ void Parser::statement()
 
         if ( tk == Token::ENTONCES )
         {
-            tk == lexer.getNextToken();
+            tk = lexer.getNextToken();
+            eolCall();
             statementCall();
 
             if ( tk == Token::Eol )
@@ -701,13 +716,20 @@ void Parser::statement()
         {
             std::cerr << "Expected 'ENTONCES'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
         }
-    }
-    
-    
-    tk = lexer.getNextToken();
-    lvalue();
+    } else if ( tk == Token::ID )
+    {
+        lvalue();
+        
+        if ( tk == Token::ASSIGN )
+        {
+            tk = lexer.getNextToken();
+            expr();
 
-    if ( tk == Token::ASSIGN )
+        } else
+        {
+            std::cerr << "Expected '<-'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
+        }   
+    } else if ( tk == Token::RETORNE)
     {
         tk = lexer.getNextToken();
         expr();
@@ -715,7 +737,7 @@ void Parser::statement()
     } else
     {
         std::cerr << "Expected 'statement'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
-    }   
+    }  
 
 }
 
@@ -812,24 +834,8 @@ void Parser::lvalue()
     if ( tk == Token::ID )
     {
         tk = lexer.getNextToken();
+        lvalue_p();
 
-        if ( tk == Token::OpenBracket )
-        {
-            tk = lexer.getNextToken();
-            expr();
-
-            if ( tk == Token::CloseBracket )
-            {
-                tk = lexer.getNextToken();
-
-            } else
-            {
-                std::cerr << "Expected ']'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
-            }
-        } else
-        {
-            /* code */
-        }
     } else
     {
         std::cerr << "Expected 'ID'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
@@ -837,9 +843,78 @@ void Parser::lvalue()
     
 }
 
+void Parser::lvalue_p()
+{
+    if ( tk == Token::OpenBracket )
+    {
+        expr();
+        
+        if ( tk == Token::CloseBracket )
+        {
+            tk = lexer.getNextToken();
+        }
+
+    } else if ( tk == Token::OpenPar )
+    {
+        exprCall();
+
+    } else
+    {
+        /* epsilon */
+    }
+    
+}
+
 void Parser::expr()
 {
+    if ( tk == Token::ID )
+    {
+        lvalue();
+        expr_p();
 
+    } else if ( tk == Token::DECIMAL || tk == Token::HEX || tk == Token::BIN || tk == Token::charConstant || tk == Token::VERDADERO || tk == Token::FALSO )
+    {
+        constant();
+        expr_p();
+
+    } else if ( tk == Token::OpSub )
+    {
+        tk = lexer.getNextToken();
+        expr();
+
+    } else if ( tk == Token::NO )
+    {
+        tk = lexer.getNextToken();
+        expr();
+
+    } else if ( tk == Token::OpenPar )
+    {
+        tk = lexer.getNextToken();
+        expr();
+
+        if ( tk == Token::ClosePar )
+        {
+            tk = lexer.getNextToken();
+        }
+        
+    } else
+    {
+        std::cerr << "Expected 'ID for Expresion'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;        
+    }
+
+}
+
+void Parser::expr_p()
+{
+    if ( tk == Token::OpAdd || tk == Token::OpSub || tk == Token::OpMul || 
+         tk == Token::DIV || tk == Token::MOD || tk == Token::OpLT || 
+         tk == Token::OpGT || tk == Token::OpLTE || tk == Token::OpGTE ||
+         tk == Token::OpEQ || tk == Token::NotEQ || tk == Token::Y || tk == Token::O )
+    {
+        binOP();
+        expr();
+    }
+    
 }
 
 void Parser::multExpr()
@@ -861,29 +936,38 @@ void Parser::exprCall()
     if ( tk == Token::OpenPar )
     {
         tk = lexer.getNextToken();
+        exprCall_p();
+
+    } else
+    {
+        std::cerr << "Expected '('. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;        
+    }
+
+}
+
+void Parser::exprCall_p()
+{
+    if ( tk == Token::ID || tk == Token::DECIMAL || tk == Token::BIN ||
+         tk == Token::HEX || tk == Token::charConstant || tk == Token::VERDADERO ||
+         tk == Token::FALSO)
+    {
+        expr();
+        multExpr();
 
         if ( tk == Token::ClosePar )
         {
-            tk = lexer.getNextToken();
-
-        } else
-        {
-            expr();
-            multExpr();
-
-            if ( tk == Token::ClosePar )
-            {
-                tk = lexer.getNextToken();
-            } else
-            {
-                std::cerr << "Expected ')'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
-            }
-            
+            tk == lexer.getNextToken();
         }
+        
+    } else if ( tk == Token::ClosePar )
+    {
+        tk = lexer.getNextToken();
+    } else
+    {
+        std::cerr << "Expected 'Expresion' or ')'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;        
     }
-
-    expr();
-    multExpr();
+    
+    
     
 }
 

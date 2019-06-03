@@ -34,9 +34,12 @@ private:
     void elseBlock();
     void argument();
     void lvalue();
+    void lvalue_p();
     void expr();
+    void expr_p();
     void multExpr();
     void exprCall();
+    void exprCall_p();
     void binOP();
     void arithOP();
     void relOP();
