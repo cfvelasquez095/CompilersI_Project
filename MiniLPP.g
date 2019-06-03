@@ -1,155 +1,152 @@
 grammar MiniLPP;
 
-program:
+program: /* DONE */
     subtypes_section variable_section subprogram_decl 'inicio' statement_call 'EOL' 'fin'
 ;
 
-subtypes_section:
+subtypes_section: /* DONE */
     subtype_decl
     | /* epsilon */
 ;
 
-subtype_decl:
+subtype_decl: /* DONE */
     'tipo' 'ID' 'es' type 'EOL' subtype_decl
     | /* epsilon */
 ;
 
-variable_section:
+variable_section: /* DONE */
     variable_decl
     | /* epsilon */
 ;
 
-variable_decl:
+variable_decl: /* DONE */
     'tipo' 'id' mult_var 'EOL' variable_decl
     | /* epsilon */
 ;
 
-mult_var:
+mult_var: /* DONE */
     ',' 'id' mult_var
     | /* epsilon */
 ;
 
-type:
+type: /* DONE */
     'entero'
     | 'booleano'
     | 'charConst'
     | array_type
 ;
 
-array_type:
+array_type: /* DONE */
     'arreglo' '[' 'intConst' ']' 'de' type
 ;
 
-subprogram_decl:
+subprogram_decl: /* DONE */
     subprogram_header 'EOL' variable_section 'inicio' statement_call 'EOL' 'fin' 'EOL' subprogram_decl
     | /* epsilon */
 ;
 
-subprogram_header:
+subprogram_header: /* DONE */
     function_header
     | procedure_header
 ;
 
-function_header:
+function_header: /* DONE */
     'function' 'ID' argument_call ':' type
 ;
 
-procedure_header:
+procedure_header: /* DONE */
     'procedimiento' 'ID' argument_call
 ;
 
-argument_decl:
+argument_decl: /* DONE */
     'var' type 'ID' mult_arg
     | type 'ID' mult_arg
 ;
 
-mult_arg:
+mult_arg: /* DONE */
     ',' 'var' type 'id' mult_arg
     | ',' type 'id' mult_arg
     | /* epsilon */
 ;
 
-argument_call:
+argument_call: /* DONE */
     '(' argument_decl ')'
     | argument_decl
     | '(' ')'
 ;
 
-eol_call:
+eol_call: /* DONE */
     'EOL'
     | /* epsilon */
 ;
 
-statement:
+statement: /* DONE */
     lvalue '<-' expr
     | 'llamar' 'ID' '(' expr ')'
     | 'escriba' argument
     | 'lea' lvalue
-    | if_statement
+    | 'si' expr eol_call 'entonces' statement_call 'EOL' else_if_block else_block 'fin' 'si'
     | 'mientras' expr eol_call 'haga' 'EOL' statement_call 'EOL' 'fin' 'mientras'
     | 'repita' 'EOL' statement_call 'EOL' 'hasta' expr
     | 'para' lvalue '<-' expr 'hasta' expr 'haga' 'EOL' statement_call 'EOL' 'fin' 'para'
 ;
 
-statement_call:
+statement_call: /* DONE */
     statement 'EOL' statement_call
     | /* epsilon */
 ;
 
-if_statement:
-    'si' expr eol_call 'entonces' statement_call 'EOL' else_if_block else_block 'fin' 'si'
-;
-
-else_if_block:
-    'sino' 'si' expr eol_call 'entonces' statement 'EOL' 'EOL'
+else_if_block: /* DONE */
+    'sino' 'si' expr eol_call 'entonces' statement_call 'EOL'
     | /* epsilon */
 ;
 
-else_block:
-    'else' statement_call 'EOL'
+else_block: /* DONE */
+    'sino' statement_call 'EOL'
     | /* epsilon */
 ;
 
-argument:
+argument: /* DONE */
     'stringConstant'
     | expr
 ;
 
-lvalue:
+lvalue: /* DONE */
     'ID'
     | 'ID' '[' expr ']'
 ;
 
 expr:
     lvalue
-    | 'ID' '(' expr mult_expr ')'
+    | 'ID' expr_call
     | constant
     | expr bin_op expr
     | '-' expr
     | 'no' expr
     | '(' expr ')'
+    | /* epsilon */
 ;
 
-mult_expr:
+mult_expr: /* DONE */
     ',' expr
     | /* epsilon */
 ;
 
-expr_call:
+expr_call: /* DONE */
     '(' expr mult_expr ')'
     | expr mult_expr
     | '(' ')'
     | /* epsilon */
 ;
 
-bin_op:
+bin_op: /* DONE */
     arith_op
     | rel_op
     | eq_op
     | cond_op
 ;
 
-arith_op:
+arith_op: /* DONE */
     '+'
     | '-'
     | '*'
@@ -157,30 +154,30 @@ arith_op:
     | 'mod'
 ;
 
-rel_op:
+rel_op: /* DONE */
     '<'
     | '>'
     | '<='
     | '>='
 ;
 
-eq_op:
+eq_op: /* DONE */
     '='
     | '<>'
 ;
 
-cond_op:
+cond_op: /* DONE */
     'y'
     | 'o'
 ;
 
-constant:
+constant: /* DONE */
     'intConstant'
     | 'charConstant'
     | bool_constant
 ;
 
-bool_constant:
+bool_constant: /* DONE */
     'verdadero'
     | 'falso'
 ;
