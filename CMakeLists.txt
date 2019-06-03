@@ -9,6 +9,7 @@ include_directories(${PROJECT_SOURCE_DIR}/../)
   
 add_executable(${PROJECT_NAME} 
                     ${PROJECT_SOURCE_DIR}/lexer.cpp
+                    parser.cpp
                     main.cpp)
 
 enable_testing()
