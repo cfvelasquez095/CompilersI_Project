@@ -1,1 +1,7 @@
-_xlola <- 0
+Procedimiento intercambiar(var Entero a, var Entero b)
+	Entero tmp
+Inicio
+	tmp <- a
+	a <- b
+	b <- tmp
+Fin
