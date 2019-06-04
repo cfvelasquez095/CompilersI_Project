@@ -6,7 +6,7 @@ void Parser::parse()
     program();
     if ( tk != Token::Eof)
     {
-        std::cerr << "Unable to parse file" << " at line: " << lexer.line_num << std::endl;
+        std::cerr << "Unable to parse file" << std::endl;
     }
     
 }
@@ -21,21 +21,13 @@ void Parser::program()
         tk = lexer.getNextToken();
         statementCall();
 
-        if ( tk == Token::Eol )
+        if ( tk == Token::FIN )
         {
             tk = lexer.getNextToken();
-
-            if ( tk == Token::FIN )
-            {
-                std::cout << "MiniLPP program successfully parsed." << " at line: " << std::endl;
-            } else
-            {
-                std::cerr << "Expected 'FIN'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
-            }
-                        
+            std::cout << "MiniLPP program successfully parsed." << std::endl;
         } else
         {
-            std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
+            std::cerr << "Expected 'FIN'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
         }
         
     } else
@@ -236,21 +228,20 @@ void Parser::arrayType()
 
 void Parser::subprogramDecl()
 {
-    subprogramHeader();
-    if ( tk == Token::Eol )
+    if ( tk == Token::FUNCION || tk == Token::PROCEDIMIENTO )
     {
-        tk = lexer.getNextToken();
-        variableSection();
-
-        if ( tk == Token::INICIO )
+        subprogramHeader();
+        if ( tk == Token::Eol )
         {
             tk = lexer.getNextToken();
-            statementCall();
+            variableSection();
 
-            if ( tk == Token::Eol)
+            if ( tk == Token::INICIO )
             {
+                std::cout << lexer.toString(tk) << std::endl;
                 tk = lexer.getNextToken();
-                
+                std::cout << lexer.toString(tk) << std::endl;
+                statementCall();
                 if ( tk == Token::FIN )
                 {
                     tk = lexer.getNextToken();
@@ -270,16 +261,17 @@ void Parser::subprogramDecl()
                 }
             } else
             {
-                std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
+                std::cerr << "Expected 'INICIO'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
             }
         } else
         {
-            std::cerr << "Expected 'INICIO'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
+            /* epsilon */
         }
     } else
     {
         /* epsilon */
     }
+    
     
 }
 
@@ -504,24 +496,8 @@ void Parser::statement()
         if ( tk == Token::ID )
         {
             tk = lexer.getNextToken();
-
-            if ( tk == Token::OpenPar )
-            {
-                tk = lexer.getNextToken();
-                expr();
-
-                if ( tk == Token::ClosePar)
-                {
-                    tk = lexer.getNextToken();
-
-                }  else
-                {
-                    std::cerr << "Expected ')'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
-                }
-            } else
-            {
-                std::cerr << "Expected '('. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
-            }
+            exprCall();
+            statementCall();
             
         } else
         {
@@ -531,11 +507,13 @@ void Parser::statement()
     {
         tk = lexer.getNextToken();
         argument();
+        statementCall();
 
     } else if ( tk == Token::LEA ) //statement LEA
     {
         tk = lexer.getNextToken();
         lvalue();
+        statementCall();
 
     } else if ( tk == Token::MIENTRAS ) //statement MIENTRAS
     {
@@ -562,6 +540,8 @@ void Parser::statement()
                         if ( tk == Token::MIENTRAS )
                         {
                             tk = lexer.getNextToken();
+                            statementCall();
+
                         } else
                         {
                             std::cerr << "Expected 'MIENTRAS'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
@@ -585,32 +565,28 @@ void Parser::statement()
     } else if ( tk == Token::REPITA ) //statement REPITA
     {
         tk = lexer.getNextToken();
-        
+        tk = lexer.getNextToken();
+        statementCall();
+
         if ( tk == Token::Eol )
         {
             tk = lexer.getNextToken();
-            statementCall();
 
-            if ( tk == Token::Eol )
+            if ( tk == Token::HASTA )
             {
                 tk = lexer.getNextToken();
+                expr();
+                statementCall();
 
-                if ( tk == Token::HASTA )
-                {
-                    tk = lexer.getNextToken();
-                    expr();
-                } else
-                {
-                    std::cerr << "Expected 'HASTA'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
-                }   
             } else
             {
-                std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
+                std::cerr << "Expected 'HASTA'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
             }   
         } else
         {
             std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
-        }   
+        }
+
     } else if ( tk == Token::PARA ) //statement PARA
     {
         tk = lexer.getNextToken();
@@ -629,40 +605,33 @@ void Parser::statement()
                 if ( tk == Token::HAGA )
                 {
                     tk = lexer.getNextToken();
-                    
-                    if ( tk == Token::Eol )
+                    statementCall();
+
+                    if ( tk == Token::Eol)
                     {
                         tk = lexer.getNextToken();
-                        statementCall();
-
-                        if ( tk == Token::Eol)
+                        
+                        if ( tk == Token::FIN )
                         {
                             tk = lexer.getNextToken();
-                            
-                            if ( tk == Token::FIN )
+
+                            if ( tk == Token::PARA )
                             {
                                 tk = lexer.getNextToken();
+                                statementCall();
 
-                                if ( tk == Token::PARA )
-                                {
-                                    tk = lexer.getNextToken();
-
-                                } else
-                                {
-                                    std::cerr << "Expected 'PARA'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
-                                }   
                             } else
                             {
-                                std::cerr << "Expected 'FIN'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
+                                std::cerr << "Expected 'PARA'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
                             }   
                         } else
                         {
-                            std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
+                            std::cerr << "Expected 'FIN'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
                         }   
                     } else
                     {
                         std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
-                    }   
+                    }
                 } else
                 {
                     std::cerr << "Expected 'HAGA'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
@@ -685,7 +654,6 @@ void Parser::statement()
         if ( tk == Token::ENTONCES )
         {
             tk = lexer.getNextToken();
-            eolCall();
             statementCall();
 
             if ( tk == Token::Eol )
@@ -699,7 +667,7 @@ void Parser::statement()
                     if ( tk == Token::SI )
                     {
                         tk = lexer.getNextToken();
-
+                        statementCall();
                     } else
                     {
                         std::cerr << "Expected 'SI'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
@@ -724,6 +692,7 @@ void Parser::statement()
         {
             tk = lexer.getNextToken();
             expr();
+            statementCall();
 
         } else
         {
@@ -733,6 +702,7 @@ void Parser::statement()
     {
         tk = lexer.getNextToken();
         expr();
+        statementCall();
 
     } else
     {
@@ -743,11 +713,16 @@ void Parser::statement()
 
 void Parser::statementCall()
 {
-    statement();
     if ( tk == Token::Eol )
     {
         tk = lexer.getNextToken();
-        statementCall();
+        std::cout << lexer.toString(tk) << std::endl;
+        if ( tk == Token::ID || tk == Token::LLAMAR || tk == Token::ESCRIBA ||
+             tk == Token::LEA || tk == Token::SI || tk == Token::MIENTRAS ||
+             tk == Token::REPITA || tk == Token::PARA || tk == Token::RETORNE)
+        {
+            statement();
+        }
     } else
     {
         /* epsilon */
