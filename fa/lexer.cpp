@@ -306,95 +306,95 @@ Token Lexer::getNextToken() {
                 break;
             // resWords
             case StateId::resWords_q0:
-                if ((ch == 'R') || (ch == 'r')) {
-                    text += ch;
-                    state = StateId::rWords_q0;
-                    ch = getNextChar();
-                } else if ((ch == 'i') || (ch == 'I')) {
-                    text += ch;
-                    state = StateId::iWords_q0;
-                    ch = getNextChar();
-                } else if ((ch == 'O') || (ch == 'o')) {
-                    text += ch;
-                    state = StateId::resWords_q12;
-                    ch = getNextChar();
-                } else if ((ch == 'E') || (ch == 'e')) {
-                    text += ch;
-                    state = StateId::eWords_q0;
-                    ch = getNextChar();
-                } else if ((ch == 'F') || (ch == 'f')) {
-                    text += ch;
-                    state = StateId::fWords_q0;
-                    ch = getNextChar();
-                } else if ((ch == 'H') || (ch == 'h')) {
-                    text += ch;
-                    state = StateId::hWords_q0;
-                    ch = getNextChar();
-                } else if ((ch == 'L') || (ch == 'l')) {
-                    text += ch;
-                    state = StateId::lWords_q0;
-                    ch = getNextChar();
-                } else if ((ch == 'd') || (ch == 'D')) {
+                if ((ch == 'd') || (ch == 'D')) {
                     text += ch;
                     state = StateId::dWords_q0;
-                    ch = getNextChar();
-                } else if ((ch == 'T') || (ch == 't')) {
-                    text += ch;
-                    state = StateId::tWords_q0;
                     ch = getNextChar();
                 } else if ((ch == 'N') || (ch == 'n')) {
                     text += ch;
                     state = StateId::nWords_q0;
                     ch = getNextChar();
-                } else if ((ch == 'C') || (ch == 'c')) {
-                    text += ch;
-                    state = StateId::cWords_q0;
-                    ch = getNextChar();
-                } else if ((ch == 'S') || (ch == 's')) {
-                    text += ch;
-                    state = StateId::sWords_q0;
-                    ch = getNextChar();
-                } else if ((ch == 'p') || (ch == 'P')) {
-                    text += ch;
-                    state = StateId::pWords_q0;
-                    ch = getNextChar();
-                } else if ((ch == 'K') || (ch == 'J') || (ch == 'G') || (ch == 'Z') || (ch == 'Q') || (ch == 'W') || (ch == 'k') || (ch == 'j') || (ch == 'g') || (ch == 'z') || (ch == 'q') || (ch == 'w')) {
+                } else if ((ch == 'J') || (ch == 'K') || (ch == 'G') || (ch == 'X') || (ch == 'Z') || (ch == 'Q') || (ch == 'W') || (ch == 'j') || (ch == 'k') || (ch == 'g') || (ch == 'x') || (ch == 'z') || (ch == 'q') || (ch == 'w')) {
                     text += ch;
                     state = StateId::id_q0;
-                    ch = getNextChar();
-                } else if ((ch == 'b') || (ch == 'B')) {
-                    text += ch;
-                    state = StateId::bWords_q0;
-                    ch = getNextChar();
-                } else if ((ch == 'M') || (ch == 'm')) {
-                    text += ch;
-                    state = StateId::mWords_q0;
                     ch = getNextChar();
                 } else if ((ch == 'a') || (ch == 'A')) {
                     text += ch;
                     state = StateId::aWords_q0;
                     ch = getNextChar();
+                } else if ((ch == 'p') || (ch == 'P')) {
+                    text += ch;
+                    state = StateId::pWords_q0;
+                    ch = getNextChar();
+                } else if ((ch == 'b') || (ch == 'B')) {
+                    text += ch;
+                    state = StateId::bWords_q0;
+                    ch = getNextChar();
+                } else if ((ch == 'l') || (ch == 'L')) {
+                    text += ch;
+                    state = StateId::lWords_q0;
+                    ch = getNextChar();
+                } else if ((ch == 't') || (ch == 'T')) {
+                    text += ch;
+                    state = StateId::tWords_q0;
+                    ch = getNextChar();
                 } else if ((ch == 'v') || (ch == 'V')) {
                     text += ch;
                     state = StateId::vWords_q0;
                     ch = getNextChar();
+                } else if ((ch == 'F') || (ch == 'f')) {
+                    text += ch;
+                    state = StateId::fWords_q0;
+                    ch = getNextChar();
+                } else if ((ch == 'h') || (ch == 'H')) {
+                    text += ch;
+                    state = StateId::hWords_q0;
+                    ch = getNextChar();
+                } else if ((ch == 'i') || (ch == 'I')) {
+                    text += ch;
+                    state = StateId::iWords_q0;
+                    ch = getNextChar();
                 } else if ((ch == 'y') || (ch == 'Y')) {
                     text += ch;
                     state = StateId::resWords_q18;
+                    ch = getNextChar();
+                } else if ((ch == 'r') || (ch == 'R')) {
+                    text += ch;
+                    state = StateId::rWords_q0;
+                    ch = getNextChar();
+                } else if ((ch == 'O') || (ch == 'o')) {
+                    text += ch;
+                    state = StateId::resWords_q12;
+                    ch = getNextChar();
+                } else if ((ch == 'c') || (ch == 'C')) {
+                    text += ch;
+                    state = StateId::cWords_q0;
+                    ch = getNextChar();
+                } else if ((ch == 'M') || (ch == 'm')) {
+                    text += ch;
+                    state = StateId::mWords_q0;
+                    ch = getNextChar();
+                } else if ((ch == 'e') || (ch == 'E')) {
+                    text += ch;
+                    state = StateId::eWords_q0;
+                    ch = getNextChar();
+                } else if ((ch == 'S') || (ch == 's')) {
+                    text += ch;
+                    state = StateId::sWords_q0;
                     ch = getNextChar();
                 } else {
                     state = StateId::intConst_q0;
                 }
                 break;
             case StateId::resWords_q12:
-                if ((ch == ' ') || (ch == '\n')) {
+                if ((ch == '\n') || (ch == ' ')) {
                     return Token::O;
                 } else {
                     state = StateId::id_q0;
                 }
                 break;
             case StateId::resWords_q18:
-                if ((ch == '\n') || (ch == ' ')) {
+                if ((ch == ' ') || (ch == '\n')) {
                     return Token::Y;
                 } else {
                     state = StateId::id_q0;

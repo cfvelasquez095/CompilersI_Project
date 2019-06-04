@@ -656,9 +656,6 @@ void Parser::statement()
             tk = lexer.getNextToken();
             statementCall();
 
-            if ( tk == Token::Eol )
-            {
-                tk = lexer.getNextToken();
                 elseifStatement();
                 elseBlock();
                 if ( tk == Token::FIN )
@@ -676,10 +673,7 @@ void Parser::statement()
                 {
                     std::cerr << "Expected 'FIN'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
                 }
-            } else
-            {
-                std::cerr << "Expected 'EOL'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
-            }
+           
         } else
         {
             std::cerr << "Expected 'ENTONCES'. Found: " << lexer.getText() << " at line: " << lexer.line_num << std::endl;
