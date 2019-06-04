@@ -1,7 +1,19 @@
 Procedimiento intercambiar(var Entero a, var Entero b)
 	Entero tmp
-Inicio
+Inicio 
 	tmp <- a
 	a <- b
-	b <- tmp
-Fin
+FIN 
+Inicio 
+    a <- a
+    b <- b
+    LEA b
+    llamar funcion()
+    escriba "caca"
+    si b = 0 entonces 
+    lea x
+    fin si 
+    si b = 0 entonces 
+    lea x
+    fin si 
+fin 
