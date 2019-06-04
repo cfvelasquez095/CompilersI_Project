@@ -1,7 +1,7 @@
 grammar MiniLPP;
 
 program: /* DONE */
-    subtypes_section variable_section subprogram_decl 'inicio' statement_call 'EOL' 'fin'
+    subtypes_section variable_section subprogram_decl 'inicio' statement_call 'fin'
 ;
 
 subtypes_section: /* DONE */
@@ -41,7 +41,7 @@ array_type: /* DONE */
 ;
 
 subprogram_decl: /* DONE */
-    subprogram_header 'EOL' variable_section 'inicio' statement_call 'EOL' 'fin' 'EOL' subprogram_decl
+    subprogram_header 'EOL' variable_section 'inicio' statement_call 'fin' 'EOL' subprogram_decl
     | /* epsilon */
 ;
 
@@ -81,19 +81,19 @@ eol_call: /* DONE */
 ;
 
 statement: /* DONE */
-    lvalue '<-' expr
-    | 'llamar' 'ID' '(' expr ')'
-    | 'escriba' argument
-    | 'lea' lvalue
-    | 'si' expr eol_call 'entonces' eol_call statement_call 'EOL' else_if_block else_block 'fin' 'si'
-    | 'mientras' expr eol_call 'haga' 'EOL' statement_call 'EOL' 'fin' 'mientras'
-    | 'repita' 'EOL' statement_call 'EOL' 'hasta' expr
-    | 'para' lvalue '<-' expr 'hasta' expr 'haga' 'EOL' statement_call 'EOL' 'fin' 'para'
-    | 'retorne' expr
+    lvalue '<-' expr statement_call
+    | 'llamar' 'ID' expr_call statement_call
+    | 'escriba' argument statement_call
+    | 'lea' lvalue statement_call
+    | 'si' expr eol_call 'entonces' statement_call 'EOL' else_if_block else_block 'fin' 'si' statement_call
+    | 'mientras' expr eol_call 'haga' statement_call 'EOL' 'fin' 'mientras' statement_call
+    | 'repita' statement_call 'EOL' 'hasta' expr statement_call
+    | 'para' lvalue '<-' expr 'hasta' expr 'haga' statement_call 'EOL' 'fin' 'para' statement_call
+    | 'retorne' expr statement_call
 ;
 
 statement_call: /* DONE */
-    statement 'EOL' statement_call
+    'EOL' statement
     | /* epsilon */
 ;
 
