@@ -190,7 +190,7 @@ void Parser::arrayType()
         {
             tk = lexer.getNextToken();
 
-            if ( tk == Token::ENTERO )
+            if ( tk == Token::DECIMAL || tk == Token::BIN || tk == Token::HEX )
             {
                 tk = lexer.getNextToken();
 
