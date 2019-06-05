@@ -41,12 +41,7 @@ private:
     void exprCall();
     void exprCall_p();
     void binOP();
-    void arithOP();
-    void relOP();
-    void eqOP();
-    void condOP();
     void constant();
-    void boolConstant();
 
 };
 #endif
