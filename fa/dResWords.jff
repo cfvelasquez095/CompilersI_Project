@@ -37,14 +37,9 @@
 		</state>
 		<!--The list of transitions.-->
 		<transition>
-			<from>0</from>
-			<to>1</to>
-			<read>e</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>1</to>
-			<read>E</read>
+			<from>1</from>
+			<to>2</to>
+			<read/>
 		</transition>
 		<transition>
 			<from>0</from>
@@ -57,21 +52,6 @@
 			<read>I</read>
 		</transition>
 		<transition>
-			<from>1</from>
-			<to>2</to>
-			<read>-SPACE</read>
-		</transition>
-		<transition>
-			<from>4</from>
-			<to>5</to>
-			<read>-EOL</read>
-		</transition>
-		<transition>
-			<from>3</from>
-			<to>6</to>
-			<read/>
-		</transition>
-		<transition>
 			<from>3</from>
 			<to>4</to>
 			<read>v</read>
@@ -82,29 +62,49 @@
 			<read>V</read>
 		</transition>
 		<transition>
+			<from>1</from>
+			<to>6</to>
+			<read>_</read>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>6</to>
+			<read>isalnum?</read>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>6</to>
+			<read/>
+		</transition>
+		<transition>
 			<from>0</from>
 			<to>6</to>
 			<read/>
 		</transition>
 		<transition>
 			<from>4</from>
-			<to>5</to>
-			<read>-SPACE</read>
+			<to>6</to>
+			<read>_</read>
 		</transition>
 		<transition>
 			<from>4</from>
 			<to>6</to>
+			<read>isalnum?</read>
+		</transition>
+		<transition>
+			<from>4</from>
+			<to>5</to>
 			<read/>
 		</transition>
 		<transition>
-			<from>1</from>
-			<to>2</to>
-			<read>-EOL</read>
+			<from>0</from>
+			<to>1</to>
+			<read>e</read>
 		</transition>
 		<transition>
-			<from>1</from>
-			<to>6</to>
-			<read/>
+			<from>0</from>
+			<to>1</to>
+			<read>E</read>
 		</transition>
 		<note>
 			<text>Name: dWords</text>

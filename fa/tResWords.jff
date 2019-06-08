@@ -31,39 +31,19 @@
 		</state>
 		<!--The list of transitions.-->
 		<transition>
-			<from>3</from>
-			<to>4</to>
-			<read>-SPACE</read>
+			<from>1</from>
+			<to>2</to>
+			<read>p</read>
 		</transition>
 		<transition>
-			<from>2</from>
-			<to>5</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>3</from>
-			<to>5</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>3</from>
-			<to>4</to>
-			<read>-EOL</read>
+			<from>1</from>
+			<to>2</to>
+			<read>P</read>
 		</transition>
 		<transition>
 			<from>0</from>
 			<to>5</to>
 			<read/>
-		</transition>
-		<transition>
-			<from>2</from>
-			<to>3</to>
-			<read>o</read>
-		</transition>
-		<transition>
-			<from>2</from>
-			<to>3</to>
-			<read>O</read>
 		</transition>
 		<transition>
 			<from>0</from>
@@ -76,19 +56,39 @@
 			<read>I</read>
 		</transition>
 		<transition>
-			<from>1</from>
+			<from>2</from>
+			<to>3</to>
+			<read>o</read>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>3</to>
+			<read>O</read>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>4</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>2</from>
 			<to>5</to>
 			<read/>
 		</transition>
 		<transition>
 			<from>1</from>
-			<to>2</to>
-			<read>p</read>
+			<to>5</to>
+			<read/>
 		</transition>
 		<transition>
-			<from>1</from>
-			<to>2</to>
-			<read>P</read>
+			<from>3</from>
+			<to>5</to>
+			<read>_</read>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>5</to>
+			<read>isalnum?</read>
 		</transition>
 		<note>
 			<text>Name: tWords</text>

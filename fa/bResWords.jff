@@ -47,6 +47,41 @@
 		</state>
 		<!--The list of transitions.-->
 		<transition>
+			<from>4</from>
+			<to>5</to>
+			<read>a</read>
+		</transition>
+		<transition>
+			<from>4</from>
+			<to>5</to>
+			<read>A</read>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>9</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>1</to>
+			<read>o</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>1</to>
+			<read>O</read>
+		</transition>
+		<transition>
+			<from>6</from>
+			<to>7</to>
+			<read>o</read>
+		</transition>
+		<transition>
+			<from>6</from>
+			<to>7</to>
+			<read>O</read>
+		</transition>
+		<transition>
 			<from>1</from>
 			<to>2</to>
 			<read>o</read>
@@ -55,6 +90,56 @@
 			<from>1</from>
 			<to>2</to>
 			<read>O</read>
+		</transition>
+		<transition>
+			<from>7</from>
+			<to>9</to>
+			<read>_</read>
+		</transition>
+		<transition>
+			<from>7</from>
+			<to>9</to>
+			<read>isalnum?</read>
+		</transition>
+		<transition>
+			<from>5</from>
+			<to>6</to>
+			<read>n</read>
+		</transition>
+		<transition>
+			<from>5</from>
+			<to>6</to>
+			<read>N</read>
+		</transition>
+		<transition>
+			<from>7</from>
+			<to>8</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>9</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>9</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>5</from>
+			<to>9</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>4</from>
+			<to>9</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>6</from>
+			<to>9</to>
+			<read/>
 		</transition>
 		<transition>
 			<from>2</from>
@@ -80,91 +165,6 @@
 			<from>2</from>
 			<to>3</to>
 			<read>L</read>
-		</transition>
-		<transition>
-			<from>7</from>
-			<to>8</to>
-			<read>-EOL</read>
-		</transition>
-		<transition>
-			<from>3</from>
-			<to>9</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>4</from>
-			<to>9</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>7</from>
-			<to>9</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>5</from>
-			<to>6</to>
-			<read>n</read>
-		</transition>
-		<transition>
-			<from>5</from>
-			<to>6</to>
-			<read>N</read>
-		</transition>
-		<transition>
-			<from>1</from>
-			<to>9</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>6</from>
-			<to>9</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>6</from>
-			<to>7</to>
-			<read>o</read>
-		</transition>
-		<transition>
-			<from>6</from>
-			<to>7</to>
-			<read>O</read>
-		</transition>
-		<transition>
-			<from>5</from>
-			<to>9</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>4</from>
-			<to>5</to>
-			<read>a</read>
-		</transition>
-		<transition>
-			<from>4</from>
-			<to>5</to>
-			<read>A</read>
-		</transition>
-		<transition>
-			<from>7</from>
-			<to>8</to>
-			<read>-SPACE</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>1</to>
-			<read>o</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>1</to>
-			<read>O</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>9</to>
-			<read/>
 		</transition>
 		<note>
 			<text>Name: bWords</text>

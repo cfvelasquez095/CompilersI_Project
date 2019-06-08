@@ -27,16 +27,6 @@
 		</state>
 		<!--The list of transitions.-->
 		<transition>
-			<from>1</from>
-			<to>2</to>
-			<read>o</read>
-		</transition>
-		<transition>
-			<from>1</from>
-			<to>2</to>
-			<read>O</read>
-		</transition>
-		<transition>
 			<from>0</from>
 			<to>1</to>
 			<read>n</read>
@@ -49,7 +39,7 @@
 		<transition>
 			<from>2</from>
 			<to>4</to>
-			<read>-EOL</read>
+			<read/>
 		</transition>
 		<transition>
 			<from>1</from>
@@ -57,19 +47,29 @@
 			<read/>
 		</transition>
 		<transition>
-			<from>2</from>
-			<to>4</to>
-			<read>-SPACE</read>
+			<from>1</from>
+			<to>2</to>
+			<read>o</read>
 		</transition>
 		<transition>
-			<from>2</from>
-			<to>3</to>
-			<read/>
+			<from>1</from>
+			<to>2</to>
+			<read>O</read>
 		</transition>
 		<transition>
 			<from>0</from>
 			<to>3</to>
 			<read/>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>3</to>
+			<read>_</read>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>3</to>
+			<read>isalnum?</read>
 		</transition>
 		<note>
 			<text>Name: nWords</text>

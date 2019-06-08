@@ -44,19 +44,44 @@
 			<read/>
 		</transition>
 		<transition>
-			<from>2</from>
-			<to>3</to>
-			<read>c</read>
+			<from>4</from>
+			<to>5</to>
+			<read>o</read>
+		</transition>
+		<transition>
+			<from>4</from>
+			<to>5</to>
+			<read>O</read>
 		</transition>
 		<transition>
 			<from>2</from>
-			<to>3</to>
-			<read>C</read>
+			<to>7</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>4</from>
+			<to>7</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>5</from>
+			<to>6</to>
+			<read/>
 		</transition>
 		<transition>
 			<from>5</from>
 			<to>7</to>
+			<read>isalnum?</read>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>7</to>
 			<read/>
+		</transition>
+		<transition>
+			<from>5</from>
+			<to>7</to>
+			<read>_</read>
 		</transition>
 		<transition>
 			<from>3</from>
@@ -69,11 +94,6 @@
 			<read>I</read>
 		</transition>
 		<transition>
-			<from>5</from>
-			<to>6</to>
-			<read>-EOL</read>
-		</transition>
-		<transition>
 			<from>1</from>
 			<to>2</to>
 			<read>i</read>
@@ -82,21 +102,6 @@
 			<from>1</from>
 			<to>2</to>
 			<read>I</read>
-		</transition>
-		<transition>
-			<from>1</from>
-			<to>7</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>5</from>
-			<to>6</to>
-			<read>-SPACE</read>
-		</transition>
-		<transition>
-			<from>2</from>
-			<to>7</to>
-			<read/>
 		</transition>
 		<transition>
 			<from>0</from>
@@ -109,24 +114,19 @@
 			<read>N</read>
 		</transition>
 		<transition>
-			<from>4</from>
-			<to>5</to>
-			<read>o</read>
-		</transition>
-		<transition>
-			<from>4</from>
-			<to>5</to>
-			<read>O</read>
-		</transition>
-		<transition>
 			<from>3</from>
 			<to>7</to>
 			<read/>
 		</transition>
 		<transition>
-			<from>4</from>
-			<to>7</to>
-			<read/>
+			<from>2</from>
+			<to>3</to>
+			<read>c</read>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>3</to>
+			<read>C</read>
 		</transition>
 		<note>
 			<text>Name: iWords</text>

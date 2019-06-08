@@ -91,151 +91,6 @@
 		</state>
 		<!--The list of transitions.-->
 		<transition>
-			<from>11</from>
-			<to>16</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>10</from>
-			<to>18</to>
-			<read>-SPACE</read>
-		</transition>
-		<transition>
-			<from>9</from>
-			<to>16</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>9</from>
-			<to>10</to>
-			<read>o</read>
-		</transition>
-		<transition>
-			<from>12</from>
-			<to>16</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>13</from>
-			<to>14</to>
-			<read>L</read>
-		</transition>
-		<transition>
-			<from>4</from>
-			<to>17</to>
-			<read>-SPACE</read>
-		</transition>
-		<transition>
-			<from>1</from>
-			<to>2</to>
-			<read>r</read>
-		</transition>
-		<transition>
-			<from>12</from>
-			<to>13</to>
-			<read>g</read>
-		</transition>
-		<transition>
-			<from>8</from>
-			<to>9</to>
-			<read>V</read>
-		</transition>
-		<transition>
-			<from>2</from>
-			<to>3</to>
-			<read>i</read>
-		</transition>
-		<transition>
-			<from>3</from>
-			<to>4</to>
-			<read>r</read>
-		</transition>
-		<transition>
-			<from>5</from>
-			<to>11</to>
-			<read>R</read>
-		</transition>
-		<transition>
-			<from>14</from>
-			<to>16</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>2</from>
-			<to>16</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>9</from>
-			<to>10</to>
-			<read>O</read>
-		</transition>
-		<transition>
-			<from>13</from>
-			<to>14</to>
-			<read>l</read>
-		</transition>
-		<transition>
-			<from>15</from>
-			<to>19</to>
-			<read>-EOL</read>
-		</transition>
-		<transition>
-			<from>1</from>
-			<to>2</to>
-			<read>R</read>
-		</transition>
-		<transition>
-			<from>12</from>
-			<to>13</to>
-			<read>G</read>
-		</transition>
-		<transition>
-			<from>8</from>
-			<to>9</to>
-			<read>v</read>
-		</transition>
-		<transition>
-			<from>2</from>
-			<to>3</to>
-			<read>I</read>
-		</transition>
-		<transition>
-			<from>3</from>
-			<to>4</to>
-			<read>R</read>
-		</transition>
-		<transition>
-			<from>15</from>
-			<to>16</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>5</from>
-			<to>11</to>
-			<read>r</read>
-		</transition>
-		<transition>
-			<from>4</from>
-			<to>16</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>1</from>
-			<to>16</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>8</from>
-			<to>16</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>11</from>
-			<to>12</to>
-			<read>E</read>
-		</transition>
-		<transition>
 			<from>5</from>
 			<to>6</to>
 			<read>c</read>
@@ -243,7 +98,72 @@
 		<transition>
 			<from>4</from>
 			<to>17</to>
-			<read>-EOL</read>
+			<read/>
+		</transition>
+		<transition>
+			<from>13</from>
+			<to>16</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>11</from>
+			<to>12</to>
+			<read>e</read>
+		</transition>
+		<transition>
+			<from>14</from>
+			<to>16</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>1</to>
+			<read>B</read>
+		</transition>
+		<transition>
+			<from>4</from>
+			<to>16</to>
+			<read>isalnum?</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>16</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>4</to>
+			<read>R</read>
+		</transition>
+		<transition>
+			<from>9</from>
+			<to>16</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>10</from>
+			<to>16</to>
+			<read>_</read>
+		</transition>
+		<transition>
+			<from>12</from>
+			<to>13</to>
+			<read>G</read>
+		</transition>
+		<transition>
+			<from>7</from>
+			<to>8</to>
+			<read>i</read>
+		</transition>
+		<transition>
+			<from>9</from>
+			<to>10</to>
+			<read>O</read>
+		</transition>
+		<transition>
+			<from>8</from>
+			<to>9</to>
+			<read>V</read>
 		</transition>
 		<transition>
 			<from>5</from>
@@ -251,54 +171,9 @@
 			<read/>
 		</transition>
 		<transition>
-			<from>0</from>
-			<to>1</to>
-			<read>b</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>5</to>
-			<read>r</read>
-		</transition>
-		<transition>
-			<from>3</from>
-			<to>16</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>14</from>
-			<to>15</to>
-			<read>O</read>
-		</transition>
-		<transition>
-			<from>7</from>
-			<to>16</to>
-			<read/>
-		</transition>
-		<transition>
 			<from>6</from>
 			<to>7</to>
-			<read>h</read>
-		</transition>
-		<transition>
-			<from>7</from>
-			<to>8</to>
-			<read>I</read>
-		</transition>
-		<transition>
-			<from>10</from>
-			<to>18</to>
-			<read>-EOL</read>
-		</transition>
-		<transition>
-			<from>10</from>
-			<to>16</to>
-			<read/>
-		</transition>
-		<transition>
-			<from>6</from>
-			<to>16</to>
-			<read/>
+			<read>H</read>
 		</transition>
 		<transition>
 			<from>5</from>
@@ -308,20 +183,60 @@
 		<transition>
 			<from>11</from>
 			<to>12</to>
-			<read>e</read>
-		</transition>
-		<transition>
-			<from>15</from>
-			<to>19</to>
-			<read>-SPACE</read>
+			<read>E</read>
 		</transition>
 		<transition>
 			<from>0</from>
 			<to>1</to>
-			<read>B</read>
+			<read>b</read>
 		</transition>
 		<transition>
-			<from>0</from>
+			<from>7</from>
+			<to>16</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>11</from>
+			<to>16</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>4</to>
+			<read>r</read>
+		</transition>
+		<transition>
+			<from>7</from>
+			<to>8</to>
+			<read>I</read>
+		</transition>
+		<transition>
+			<from>12</from>
+			<to>13</to>
+			<read>g</read>
+		</transition>
+		<transition>
+			<from>9</from>
+			<to>10</to>
+			<read>o</read>
+		</transition>
+		<transition>
+			<from>15</from>
+			<to>16</to>
+			<read>isalnum</read>
+		</transition>
+		<transition>
+			<from>8</from>
+			<to>9</to>
+			<read>v</read>
+		</transition>
+		<transition>
+			<from>6</from>
+			<to>7</to>
+			<read>h</read>
+		</transition>
+		<transition>
+			<from>1</from>
 			<to>16</to>
 			<read/>
 		</transition>
@@ -331,24 +246,109 @@
 			<read>R</read>
 		</transition>
 		<transition>
-			<from>14</from>
-			<to>15</to>
-			<read>o</read>
+			<from>5</from>
+			<to>11</to>
+			<read>r</read>
 		</transition>
 		<transition>
-			<from>6</from>
-			<to>7</to>
-			<read>H</read>
+			<from>1</from>
+			<to>2</to>
+			<read>R</read>
 		</transition>
 		<transition>
-			<from>7</from>
-			<to>8</to>
-			<read>i</read>
+			<from>12</from>
+			<to>16</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>15</from>
+			<to>16</to>
+			<read>_</read>
 		</transition>
 		<transition>
 			<from>13</from>
+			<to>14</to>
+			<read>L</read>
+		</transition>
+		<transition>
+			<from>8</from>
 			<to>16</to>
 			<read/>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>3</to>
+			<read>i</read>
+		</transition>
+		<transition>
+			<from>15</from>
+			<to>19</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>16</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>14</from>
+			<to>15</to>
+			<read>O</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>5</to>
+			<read>r</read>
+		</transition>
+		<transition>
+			<from>5</from>
+			<to>11</to>
+			<read>R</read>
+		</transition>
+		<transition>
+			<from>10</from>
+			<to>18</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>2</to>
+			<read>r</read>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>16</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>13</from>
+			<to>14</to>
+			<read>l</read>
+		</transition>
+		<transition>
+			<from>4</from>
+			<to>16</to>
+			<read>_</read>
+		</transition>
+		<transition>
+			<from>10</from>
+			<to>16</to>
+			<read>isalnum?</read>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>3</to>
+			<read>I</read>
+		</transition>
+		<transition>
+			<from>6</from>
+			<to>16</to>
+			<read/>
+		</transition>
+		<transition>
+			<from>14</from>
+			<to>15</to>
+			<read>o</read>
 		</transition>
 		<note>
 			<text>Name: aWords</text>
