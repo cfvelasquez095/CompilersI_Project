@@ -6,7 +6,7 @@ void Parser::parse()
     program();
     if ( tk != Token::Eof)
     {
-        std::cerr << "Unable to parse file" << std::endl;
+        std::cerr << "\033[1;32mUnable to parse file.\033[0m" << std::endl;
     }
     
 }
