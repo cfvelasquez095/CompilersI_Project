@@ -238,9 +238,7 @@ void Parser::subprogramDecl()
 
             if ( tk == Token::INICIO )
             {
-                std::cout << lexer.toString(tk) << std::endl;
                 tk = lexer.getNextToken();
-                std::cout << lexer.toString(tk) << std::endl;
                 statementCall();
                 if ( tk == Token::FIN )
                 {
@@ -710,7 +708,6 @@ void Parser::statementCall()
     if ( tk == Token::Eol )
     {
         tk = lexer.getNextToken();
-        std::cout << lexer.toString(tk) << std::endl;
         if ( tk == Token::ID || tk == Token::LLAMAR || tk == Token::ESCRIBA ||
              tk == Token::LEA || tk == Token::SI || tk == Token::MIENTRAS ||
              tk == Token::REPITA || tk == Token::PARA || tk == Token::RETORNE)
