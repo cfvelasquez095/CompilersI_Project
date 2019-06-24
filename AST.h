@@ -30,12 +30,7 @@ public:                                                     \
 
 struct Value {
     std::string type;
-    int value;using SPASTNode = std::shared_ptr<ASTNode>;
-using SPASTNodeList = std::list<SPASTNode>;
-using SPExpr = std::shared_ptr<BinaryExpr>;
-using SPExprList = std::list<SPExpr>;
-using SPStatement = std::shared_ptr<Statement>;
-using SPStatementList = std::list<SPStatement>;
+    int value;
     int size = -1;
     int valsList[500];
 };
