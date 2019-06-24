@@ -81,6 +81,7 @@ public:
 class BinaryExpr : public ASTNode
 {
 public:
+    BinaryExpr();
     BinaryExpr(SPExpr expr1, SPExpr expr2):
     expr1(std::move(expr1)), expr2(std::move(expr2)) {};
 
@@ -104,5 +105,96 @@ express(Greater, >, 1, ">");
 express(GreaterEqual, >=, 1, ">=");
 express(Less, <, 1, "<");
 express(LessEqual, <=, 1, "<");
+
+class NoExpr : public BinaryExpr
+{
+public:
+    NoExpr(SPExpr expr1) : expr1(std::move(expr1)) {};
+    std::string toString() override{
+        return "No " +expr1->toString();
+    }
+    int eval(GlobalContext& ctx) override{
+        return !expr1->eval(ctx);
+    }
+    int getPrecedence() override{
+        return 5;
+    }
+
+    SPExpr expr1;
+};
+
+class UnaryExpr : public BinaryExpr
+{
+public:
+    UnaryExpr(SPExpr expr1) : expr1(std::move(expr1)) {};
+    std::string toString() override{ return "- " + expr1->toString(); }
+    int eval(GlobalContext& ctx) override{ return -expr1->eval(ctx); }
+    int getPrecedence() override { return 5; }
+
+    SPExpr expr1;
+};
+
+class IntConstant: public BinaryExpr
+{
+public:
+    IntConstant(int value) : value(value) {};
+
+    std::string toString() override {return std::to_string(value);}
+    int eval(GlobalContext& ctx) override{ return value; }
+    int getPrecedence() override { return 1; }
+    int value;
+};
+
+class CharConstant: public BinaryExpr
+{
+public:
+    CharConstant(char value) : value(value) {};
+    std::string toString() override {
+        char c = (char)value;
+        std::string s(1,c);
+        return s;
+    }
+    int eval(GlobalContext& ctx) override { return (int)value; }
+    int getPrecedence() override{ return 1; }
+    char value;
+};
+
+class BoolConstant: public BinaryExpr
+{
+public:
+    BoolConstant(std::string value) : value(value) {};
+    std::string toString() override {
+        if(value == "VERDADERO" || value == "verdadero" ||
+            value == "Verdadero")
+        {
+            return "Verdadero";
+        }
+        return "Falso";
+    }
+
+    int eval(GlobalContext& ctx) override {
+        if(value == "VERDADERO" || value == "verdadero" ||
+            value == "Verdadero")
+        {
+            return 1;
+        }
+        return 0;
+    }
+
+    int getPrecedence() override{ return 1; }
+
+    std::string value;
+};
+
+class StringConstant: public BinaryExpr
+{
+public:
+    StringConstant(std::string value): value(value) {};
+    std::string toString() override {return value;}
+    int eval(GlobalContext& ctx)override{ return -1; }
+    int getPrecedence() override { return 5; }
+
+    std::string value;
+};
 
 #endif
